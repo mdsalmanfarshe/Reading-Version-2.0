@@ -1,0 +1,2901 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0f2942">
+<title>ILM (ইলম) — Intelligent Learning & Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f1f5f9;
+  --panel: #ffffff;
+  --panel-2: #f8fafc;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --navy: #0f2942;
+  --navy-2: #163a5f;
+  --blue: #1d5fa7;
+  --blue-hover: #174d88;
+  --gold: #d9a441;
+  --gold-soft: #fef6e6;
+  --soft: #e8f0f9;
+  --green: #15803d;
+  --green-soft: #dcfce7;
+  --red: #b91c1c;
+  --red-dark: #991b1b;
+  --red-soft: #fee2e2;
+  --shadow: 0 4px 20px rgba(15, 41, 66, 0.06);
+  --shadow-lg: 0 12px 32px rgba(15, 41, 66, 0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+[data-theme="dark"] {
+  --bg: #09111e;
+  --panel: #111d2e;
+  --panel-2: #16253b;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --line: #23354d;
+  --navy: #07101c;
+  --navy-2: #10243c;
+  --blue: #3b82f6;
+  --blue-hover: #60a5fa;
+  --gold: #eab308;
+  --gold-soft: rgba(234, 179, 8, 0.14);
+  --soft: #1a2d46;
+  --green: #22c55e;
+  --green-soft: rgba(34, 197, 94, 0.14);
+  --red: #ef4444;
+  --red-dark: #b91c1c;
+  --red-soft: rgba(239, 68, 68, 0.16);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { max-width: 100%; overflow-x: hidden; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Noto Sans Bengali', system-ui, -apple-system, sans-serif;
+  line-height: 1.55;
+  transition: background 0.2s, color 0.2s;
+}
+
+button, input, select, textarea { font: inherit; }
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 10px 15px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 0.12s, background 0.15s, filter 0.15s;
+}
+button:hover { background: var(--blue-hover); }
+button:active { transform: scale(0.98); }
+button.secondary { background: var(--soft); color: var(--text); }
+button.secondary:hover { filter: brightness(0.95); }
+button.danger { background: var(--red); color: #fff; }
+button.danger:hover { background: var(--red-dark); }
+button.gold { background: var(--gold); color: #0f172a; font-weight: 700; }
+button.ghost { background: transparent; color: var(--text); padding: 7px 10px; }
+button.sm { padding: 6px 11px; font-size: 12px; border-radius: 8px; }
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--panel-2);
+  color: var(--text);
+  margin: 4px 0 12px;
+  font-size: 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(29, 95, 167, 0.16);
+}
+textarea { min-height: 82px; resize: vertical; }
+label { display: block; font-size: 12.5px; font-weight: 600; color: var(--text); margin-top: 2px; }
+
+/* App Shell */
+.shell {
+  display: grid;
+  grid-template-columns: 265px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+  color: #fff;
+  padding: 18px 14px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 4px 6px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.brand-text b { font-size: 18px; letter-spacing: 0.4px; display: block; line-height: 1.2; }
+.brand-text span { font-size: 11px; color: #cbd5e1; display: block; }
+.brand-tagline {
+  font-size: 11px;
+  color: #f3d085;
+  padding: 8px 8px 4px;
+  font-weight: 500;
+}
+.nav { display: grid; gap: 4px; margin-top: 10px; flex: 1; }
+.nav button {
+  background: transparent;
+  color: #dbe7f3;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-radius: 10px;
+}
+.nav button:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+.nav button.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--gold);
+}
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 35;
+}
+.sidebar-backdrop.open { display: block; }
+
+/* Topbar */
+.main { min-width: 0; display: flex; flex-direction: column; }
+.top {
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 25;
+}
+.top-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.top-title h2 { font-size: 17px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top-title small { color: var(--muted); font-size: 12px; display: block; }
+.top-search { flex: 1; max-width: 340px; position: relative; }
+.top-search input { margin: 0; padding: 8px 12px 8px 34px; font-size: 13px; border-radius: 99px; }
+.top-search .search-ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--muted); pointer-events: none; }
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 50;
+  padding: 6px;
+}
+.search-hit {
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--line);
+}
+.search-hit:last-child { border: 0; }
+.search-hit:hover { background: var(--soft); }
+.top-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.avatar-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--soft);
+  color: var(--text);
+  padding: 5px 10px 5px 6px;
+  border-radius: 99px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.avatar-chip img, .avatar-fallback {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--blue);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Content Area */
+.content { padding: 18px 20px 36px; max-width: 1180px; width: 100%; margin: 0 auto; }
+.page { display: none; animation: fadeIn 0.18s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Cards & Grids */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+  min-width: 0;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.card h3 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Urgent Red Notice Banner at Top of Dashboard */
+.urgent-banner {
+  background: linear-gradient(135deg, #b91c1c 0%, #881337 100%);
+  color: #ffffff;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(185, 28, 28, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.urgent-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.urgent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.urgent-list { display: grid; gap: 8px; }
+.urgent-item {
+  background: rgba(0, 0, 0, 0.18);
+  border-left: 3px solid #fde047;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.urgent-item-head { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; align-items: center; }
+.urgent-item b { font-size: 14.5px; color: #fff; }
+.urgent-item p { margin: 4px 0 0; font-size: 13px; color: #fee2e2; }
+.urgent-item small { font-size: 11.5px; color: #fecaca; }
+
+/* Hero Welcome Card */
+.hero {
+  background: linear-gradient(130deg, #0f2942 0%, #1d5fa7 100%);
+  color: #fff;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 164, 65, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero h1 { font-size: 22px; margin: 6px 0 4px; }
+.hero p { color: #dbeafe; margin: 0; font-size: 14px; }
+
+/* Clock & Calendar */
+.clock-card {
+  background: linear-gradient(145deg, var(--navy) 0%, #184575 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.clock-digits {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+  margin: 10px 0 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.clock-ampm {
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.16);
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: #f6d58e;
+}
+.clock-date { color: #cbd5e1; font-size: 13.5px; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  text-align: center;
+}
+.cal-dow { font-size: 11px; font-weight: 700; color: var(--muted); padding: 4px 0; }
+.cal-day {
+  aspect-ratio: 1 / 1;
+  max-height: 42px;
+  width: 100%;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--panel-2);
+  color: var(--text);
+  position: relative;
+  padding: 2px;
+}
+.cal-day.empty { background: transparent; cursor: default; }
+.cal-day.today { background: var(--blue); color: #fff; font-weight: 800; }
+.cal-day.selected { outline: 2px solid var(--gold); }
+.cal-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  position: absolute;
+  bottom: 3px;
+}
+.cal-day.today .cal-dot { background: #fff; }
+
+/* Stat Cards */
+.stat-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 15px;
+  box-shadow: var(--shadow);
+}
+.stat-card small { color: var(--muted); font-size: 12px; display: block; }
+.stat-card strong { font-size: 22px; display: block; margin-top: 4px; color: var(--text); }
+
+/* Mobile Quick Action Launcher */
+.quick-launcher {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.launch-btn {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 8px;
+  flex-direction: column;
+  gap: 7px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.launch-btn:hover { background: var(--soft); border-color: var(--blue); }
+.launch-ico {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--soft);
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.launch-btn span { font-size: 12px; font-weight: 600; line-height: 1.25; }
+
+/* Progress & Badges */
+.progress { height: 9px; border-radius: 99px; background: var(--soft); overflow: hidden; margin-top: 8px; }
+.progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width 0.3s; }
+.pill { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 99px; background: var(--soft); font-size: 11px; font-weight: 600; color: var(--text); }
+.pill.green { background: var(--green-soft); color: var(--green); }
+.pill.gold { background: var(--gold-soft); color: #9a6700; }
+[data-theme="dark"] .pill.gold { color: #fde047; }
+.pill.red { background: var(--red-soft); color: var(--red); }
+
+/* Lists & Resources */
+.item { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.item:last-child { border: 0; padding-bottom: 0; }
+.item b { display: block; font-size: 14.5px; }
+.item p { margin: 5px 0; font-size: 13.5px; }
+.item small, .muted { color: var(--muted); font-size: 12px; }
+.actions { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 8px; }
+.resource-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  background: var(--panel-2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.resource-top { display: flex; align-items: flex-start; gap: 11px; }
+.resource-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: var(--soft);
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Scientific Calculator */
+.calc-wrap { max-width: 440px; margin: 0 auto; }
+.calc-screen {
+  background: #0b1626;
+  color: #f8fafc;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1px solid #243b55;
+  text-align: right;
+}
+.calc-meta { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
+.calc-expr { min-height: 22px; font-size: 14px; color: #93c5fd; word-break: break-all; }
+.calc-out { font-size: 28px; font-weight: 800; word-break: break-all; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.calc-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; }
+.calc-grid button {
+  padding: 13px 4px;
+  font-size: 14px;
+  border-radius: 10px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.calc-grid button:hover { background: var(--soft); }
+.calc-grid button.op { background: var(--soft); color: var(--blue); font-weight: 700; }
+.calc-grid button.fn { font-size: 12.5px; color: var(--muted); }
+.calc-grid button.eq { background: var(--blue); color: #fff; font-weight: 800; }
+.calc-grid button.ac { background: var(--red); color: #fff; }
+
+/* Tables & Quotes */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 10px 10px; text-align: left; border-bottom: 1px solid var(--line); }
+th { background: var(--soft); font-weight: 700; }
+.quote { background: var(--panel-2); border-left: 3px solid var(--gold); padding: 12px 14px; border-radius: 10px; margin: 8px 0; }
+.subjectrow { display: grid; grid-template-columns: 1fr 82px; gap: 8px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--line); }
+.subjectrow input { margin: 0; }
+.filelabel { display: inline-flex; align-items: center; gap: 6px; background: var(--soft); color: var(--text); padding: 9px 13px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+.thumb { max-width: 100%; max-height: 180px; border-radius: 10px; margin: 6px 0 10px; display: block; border: 1px solid var(--line); }
+.empty { padding: 20px; text-align: center; color: var(--muted); font-size: 13px; }
+.hidden { display: none !important; }
+
+/* Profile Header Banner */
+.profile-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+.profile-avatar-lg {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 800;
+  border: 3px solid var(--gold);
+  flex-shrink: 0;
+}
+
+/* Formal Print Report */
+.report-sheet {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  margin-top: 14px;
+}
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  border-bottom: 2px solid var(--navy);
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.report-user-box {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 18px;
+  background: var(--panel-2);
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+/* Mobile Bottom Nav & Toast */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  z-index: 30;
+  padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+}
+.bottom-nav button {
+  background: transparent;
+  color: var(--muted);
+  flex-direction: column;
+  padding: 6px 2px;
+  font-size: 10.5px;
+  gap: 3px;
+  border-radius: 8px;
+}
+.bottom-nav button.active { color: var(--blue); font-weight: 700; }
+.bottom-nav button span.ico { font-size: 18px; line-height: 1; }
+
+.toast {
+  position: fixed;
+  bottom: 76px;
+  right: 18px;
+  background: var(--navy);
+  color: #fff;
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  border-left: 4px solid var(--gold);
+  animation: fadeIn 0.2s ease;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 90;
+}
+.modal-box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+}
+
+.hamb { display: none; }
+.footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px 12px 10px; }
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+  .shell { display: block; }
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    bottom: 0;
+    width: 265px;
+    transition: left 0.25s ease;
+  }
+  .sidebar.open { left: 0; }
+  .hamb { display: inline-flex; }
+  .top { padding: 10px 12px; }
+  .top-search { display: none; }
+  .content { padding: 14px 12px 86px; }
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .bottom-nav { display: grid; }
+}
+
+@media (max-width: 480px) {
+  .two, .report-user-box { grid-template-columns: 1fr; }
+  .quick-launcher { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+  .launch-btn { padding: 10px 4px; }
+  .launch-btn span { font-size: 11px; }
+  .clock-digits { font-size: 30px; }
+  .hero h1 { font-size: 19px; }
+  .avatar-chip span.chip-name { display: none; }
+}
+
+@media print {
+  .sidebar, .top, .bottom-nav, .no-print, button, .toast { display: none !important; }
+  .shell { display: block; }
+  .content { padding: 0; max-width: 100%; }
+  .page { display: none !important; }
+  #page-statement { display: block !important; }
+  .card, .report-sheet { box-shadow: none; border: 0; padding: 0; }
+  body { background: #fff; color: #000; }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect width="48" height="48" rx="12" fill="#173f6b"/>
+        <path d="M24 6L28.5 13.5L37 15L31.5 21.5L32.5 30L24 26.2L15.5 30L16.5 21.5L11 15L19.5 13.5L24 6Z" fill="#d9a441" fill-opacity="0.28"/>
+        <path d="M11 18.5C15.5 17.5 20.5 19 24 22C27.5 19 32.5 17.5 37 18.5V34.5C32.5 33.5 27.5 35 24 38C20.5 35 15.5 33.5 11 34.5V18.5Z" stroke="#f6d58e" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="M24 22V38" stroke="#f6d58e" stroke-width="2.2"/>
+        <circle cx="24" cy="12" r="2.6" fill="#f6d58e"/>
+      </svg>
+      <div class="brand-text">
+        <b>ILM • ইলম</b>
+        <span>Intelligent Learning &amp; Management</span>
+      </div>
+    </div>
+    <div class="brand-tagline">✨ Learn, Organize, Calculate &amp; Grow.</div>
+
+    <nav class="nav" id="nav">
+      <button class="active" data-page="home" data-i18n="nav_home">🏠 হোম ড্যাশবোর্ড</button>
+      <button data-page="islamic" data-i18n="nav_islamic">🕌 ইসলামিক কর্ণার</button>
+      <button data-page="routine" data-i18n="nav_routine">🗓️ ১৪ বিষয়ের রুটিন</button>
+      <button data-page="study" data-i18n="nav_study">📚 পড়াশোনার হিসাব</button>
+      <button data-page="teacher" data-i18n="nav_teacher">👨‍🏫 স্যার/হুজুরের পড়া</button>
+      <button data-page="notes" data-i18n="nav_notes">📝 নোট ও ছবির খাতা</button>
+      <button data-page="library" data-i18n="nav_library">📖 ডিজিটাল লাইব্রেরি</button>
+      <button data-page="links" data-i18n="nav_links">🔗 QR / ভিডিও / ওয়েব লিংক</button>
+      <button data-page="notice" data-i18n="nav_notice">📢 নোটিশ বোর্ড</button>
+      <button data-page="plans" data-i18n="nav_plans">🎯 প্ল্যান ও টু-ডু</button>
+      <button data-page="tools" data-i18n="nav_tools">🧮 ক্যালকুলেটর ও সূত্র</button>
+      <button data-page="statement" data-i18n="nav_statement">📊 স্টেটমেন্ট ও রিপোর্ট</button>
+      <button data-page="settings" data-i18n="nav_settings">👤 প্রোফাইল ও সেটিংস</button>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="top no-print">
+      <div class="top-left">
+        <button class="hamb secondary sm" id="hamb" aria-label="Menu">☰</button>
+        <div class="top-title">
+          <h2 id="pageTitle">হোম ড্যাশবোর্ড</h2>
+          <small id="todayText"></small>
+        </div>
+      </div>
+
+      <div class="top-search">
+        <span class="search-ico">🔍</span>
+        <input type="search" id="globalSearch" placeholder="নোট, বই, পড়া, সূত্র খুঁজুন..." autocomplete="off">
+        <div class="search-dropdown hidden" id="searchDropdown"></div>
+      </div>
+
+      <div class="top-actions">
+        <button class="secondary sm" id="themeBtn" title="Theme">🌙</button>
+        <button class="secondary sm" id="langBtn">EN</button>
+        <div class="avatar-chip" id="topProfileBtn" title="Profile">
+          <span class="avatar-fallback" id="topAvatar">S</span>
+          <span class="chip-name" id="topUserName">Salman</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- ==================== HOME DASHBOARD ==================== -->
+      <section class="page active" id="page-home">
+        <!-- 1. URGENT NOTICE BANNER AT VERY TOP -->
+        <div class="urgent-banner" id="urgentBanner">
+          <div class="urgent-top">
+            <span class="urgent-badge">📢 <span data-i18n="important_notice">গুরুত্বপূর্ণ নোটিশ / ANNOUNCEMENT</span></span>
+            <button class="sm" style="background:rgba(255,255,255,0.2);color:#fff" onclick="goPage('notice')" data-i18n="manage_notices">+ নোটিশ পরিচালনা</button>
+          </div>
+          <div class="urgent-list" id="homeNotices"></div>
+        </div>
+
+        <!-- 2. HERO WELCOME -->
+        <div class="hero">
+          <h1 id="welcome">আসসালামু আলাইকুম, সালমান!</h1>
+          <p data-i18n="hero_sub">ILM — Intelligent Learning &amp; Management • Learn, Organize, Calculate &amp; Grow.</p>
+          <div style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <button class="gold sm" onclick="goPage('islamic')">🕌 ইসলামিক কর্ণার (কোরআন ও দোয়া)</button>
+            <div id="recentToolsBar" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+          </div>
+        </div>
+
+        <!-- 3. MOBILE & DESKTOP QUICK FEATURE LAUNCHER -->
+        <div class="quick-launcher">
+          <button class="launch-btn" onclick="goPage('islamic')"><div class="launch-ico">🕌</div><span data-i18n="qa_islamic">ইসলামিক কর্ণার</span></button>
+          <button class="launch-btn" onclick="goPage('study')"><div class="launch-ico">📚</div><span data-i18n="qa_study">পড়ার হিসাব</span></button>
+          <button class="launch-btn" onclick="goPage('teacher')"><div class="launch-ico">👨‍🏫</div><span data-i18n="qa_teacher">শিক্ষকের পড়া</span></button>
+          <button class="launch-btn" onclick="goPage('tools')"><div class="launch-ico">🧮</div><span data-i18n="qa_calc">ক্যালকুলেটর</span></button>
+          <button class="launch-btn" onclick="goPage('library')"><div class="launch-ico">🌐</div><span data-i18n="qa_resources">অনলাইন শিক্ষা</span></button>
+          <button class="launch-btn" onclick="goPage('routine')"><div class="launch-ico">🗓️</div><span data-i18n="qa_routine">১৪ বিষয় রুটিন</span></button>
+          <button class="launch-btn" onclick="goPage('notes')"><div class="launch-ico">📝</div><span data-i18n="qa_notes">নোট খাতা</span></button>
+          <button class="launch-btn" onclick="goPage('statement')"><div class="launch-ico">📊</div><span data-i18n="qa_report">রিপোর্ট / PDF</span></button>
+        </div>
+
+        <!-- 4. STATS OVERVIEW -->
+        <div class="grid-4">
+          <div class="stat-card"><small data-i18n="stat_today_study">আজ পড়াশোনা</small><strong id="homeStudy">০ মি.</strong></div>
+          <div class="stat-card"><small data-i18n="stat_other_time">অন্য কাজে সময়</small><strong id="homeOther">০ মি.</strong></div>
+          <div class="stat-card"><small data-i18n="stat_daily_goal">আজকের লক্ষ্য</small><strong id="homeGoal">৬ ঘণ্টা</strong></div>
+          <div class="stat-card">
+            <small data-i18n="stat_goal_progress">লক্ষ্য পূরণ</small>
+            <strong id="homePercent">0%</strong>
+            <div class="progress"><i id="homeProgressBar" style="width:0%"></i></div>
+          </div>
+        </div>
+
+        <!-- 5. DIGITAL CLOCK & MONTHLY CALENDAR -->
+        <div class="grid-2">
+          <div class="card clock-card">
+            <div class="card-head">
+              <h3 style="color:#fff">🕒 <span data-i18n="clock_title">ডিজিটাল ঘড়ি</span></h3>
+              <button class="sm" id="clockFormatBtn" style="background:rgba(255,255,255,0.16);color:#fff">12H / 24H</button>
+            </div>
+            <div>
+              <div class="clock-digits">
+                <span id="clockTime">00:00:00</span>
+                <span class="clock-ampm" id="clockAmPm">AM</span>
+              </div>
+              <div class="clock-date" id="clockFullDate"></div>
+            </div>
+            <div style="margin-top:14px;font-size:12px;color:#f6d58e" data-i18n="clock_note">সময়ের সঠিক ব্যবহারই সফলতার চাবিকাঠি।</div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>📅 <span id="calMonthTitle">ক্যালেন্ডার</span></h3>
+              <div style="display:flex;gap:5px">
+                <button class="secondary sm" id="calPrev">◀</button>
+                <button class="secondary sm" id="calToday" data-i18n="today_btn">আজ</button>
+                <button class="secondary sm" id="calNext">▶</button>
+              </div>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line)">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+                <small id="calSelectedLabel" class="muted"></small>
+                <button class="secondary sm" id="addCalEventBtn" data-i18n="add_reminder">+ রিমাইন্ডার</button>
+              </div>
+              <div id="calSelectedDetails" style="margin-top:6px;font-size:12.5px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. QUICK STUDY LOG & TODAY'S TASKS -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>⏱️ <span data-i18n="quick_study_title">দ্রুত পড়া যোগ করুন</span></h3></div>
+            <label data-i18n="lbl_subject">বিষয়</label>
+            <select id="quickSubject"></select>
+            <label data-i18n="lbl_minutes">মিনিট</label>
+            <input id="quickMinutes" type="number" min="1" value="30">
+            <label data-i18n="lbl_what_studied">কী পড়েছ?</label>
+            <input id="quickDetail" data-i18n-ph="ph_quick_detail" placeholder="যেমন: অনুবাদ / অনুশীলনী">
+            <button id="quickAdd" data-i18n="btn_add_study">পড়ার হিসাব যোগ</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>📌 <span data-i18n="today_tasks_title">আজকের করণীয় ও শিক্ষকের পড়া</span></h3>
+              <button class="secondary sm" onclick="goPage('plans')" data-i18n="btn_all">সব দেখুন</button>
+            </div>
+            <div id="homeTasks"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== ISLAMIC CORNER (ISLAMIC CORNER BUTTON PAGE) ==================== -->
+      <section class="page" id="page-islamic">
+        <div class="card" style="background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%); color: #fff;">
+          <h2 style="margin:0 0 6px">🕌 ইসলামিক কর্ণার (Islamic Corner)</h2>
+          <p style="margin:0; color:#cbd5e1; font-size:13.5px;">পবিত্র কুরআন, হাদিস, প্রয়োজনীয় দোয়া, তাসবিহ এবং ইসলামিক রুটিনের সমন্বিত স্থান।</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>🤲 গুরুত্বপূর্ণ দোয়া ও আমল</h3></div>
+            <div class="quote">
+              <b>১. জ্ঞান বৃদ্ধির দোয়া:</b><br>
+              "রব্বি যিদনি ইলমা"<br>
+              <small>অর্থ: হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দিন। (সূরা ত্ব-হা, ২০:১১৪)</small>
+            </div>
+            <div class="quote">
+              <b>২. ইস্তিগফার (ক্ষমা প্রার্থনা):</b><br>
+              "আসতাগফিরুল্লাহা ওয়া আতুবু ইলাইহি"<br>
+              <small>অর্থ: আমি আল্লাহর কাছে ক্ষমা প্রার্থনা করছি এবং তাঁরই দিকে ফিরে যাচ্ছি।</small>
+            </div>
+            <div class="quote">
+              <b>৩. দরুদ শরিফ:</b><br>
+              "আল্লাহুম্মা সাল্লি আলা মুহাম্মাদিও ওয়া আলা আলি মুহাম্মাদ"<br>
+              <small>অর্থ: হে আল্লাহ, মুহাম্মদ (সা:) ও তাঁর পরিবারের ওপর রহমত বর্ষণ করুন।</small>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>📖 নির্বাচিত হাদিস ও বাণী</h3></div>
+            <div class="quote">
+              <b>জ্ঞানের পথ:</b><br>
+              "যে ব্যক্তি জ্ঞান অর্জনের পথে চলে, আল্লাহ তার জন্য জান্নাতের পথ সহজ করে দেন।"<br>
+              <small>— সহিহ মুসলিম, ২৬৯৯</small>
+            </div>
+            <div class="quote">
+              <b>কাজের শ্রেষ্ঠত্ব:</b><br>
+              "নিশ্চয়ই আল্লাহ তাআলা পছন্দ করেন যখন তোমাদের কেউ কোনো কাজ করে, তা যেন খুব ভালোভাবে নিখুঁতভাবে আঞ্জামে দেয়।"<br>
+              <small>— বায়হাকি</small>
+            </div>
+            <div class="quote">
+              <b>সময়ের মূল্যায়ন:</b><br>
+              "দুটি নিয়ামত এমন রয়েছে, যেগুলোতে বহু মানুষ ক্ষতিগ্রস্ত (এর সঠিক মূল্যায়ন করে না): সুস্থতা এবং অবসর সময়।"<br>
+              <small>— সহিহ বুখারি</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>⏱️ দৈনিক ইসলামিক রুটিন ও ইবাদত চেকলিস্ট</h3></div>
+          <p class="muted" style="margin-bottom:12px">প্রতিদিনের নিয়মিত আমল ও সালাত ট্র্যাকিংয়ের জন্য তালিকা।</p>
+          <div style="display:grid; gap:8px;">
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="checkbox" style="width:18px;height:18px;margin:0"> ফজর সালাত সময়মতো আদায় করা</label>
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="checkbox" style="width:18px;height:18px;margin:0"> প্রতিদিন অন্তত ১ পারা বা নির্দিষ্ট পৃষ্ঠা কুরআন তিলাওয়াত</label>
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="checkbox" style="width:18px;height:18px;margin:0"> যোহর, আসর, মাগরিব ও এশা সালাত জামাতে আদায়</label>
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="checkbox" style="width:18px;height:18px;margin:0"> সকালে ও সন্ধ্যায় মাসনুন দোয়া ও জিকির পাঠ</label>
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="checkbox" style="width:18px;height:18px;margin:0"> ঘুমানোর আগে অজু ও ইস্তিগফার করা</label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 14 SUBJECT ROUTINE ==================== -->
+      <section class="page" id="page-routine">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>📚 <span data-i18n="routine_14_title">১৪ বিষয়ের তালিকা সম্পাদনা</span></h3></div>
+            <p class="muted" data-i18n="routine_14_desc">তোমার সিলেবাস অনুযায়ী ১৪টি বিষয়ের নাম পরিবর্তন ও সংরক্ষণ করো।</p>
+            <div id="subjectEditor"></div>
+            <button id="saveSubjects" style="margin-top:10px" data-i18n="btn_save_subjects">বিষয় সংরক্ষণ</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>⏰ <span data-i18n="weekly_schedule_title">সাপ্তাহিক পড়ার সময়সূচি</span></h3></div>
+            <label data-i18n="lbl_day">দিন</label>
+            <select id="routineDay">
+              <option>প্রতিদিন</option><option>শনিবার</option><option>রবিবার</option><option>সোমবার</option>
+              <option>মঙ্গলবার</option><option>বুধবার</option><option>বৃহস্পতিবার</option><option>শুক্রবার</option>
+            </select>
+            <div class="two">
+              <div><label data-i18n="lbl_time_slot">সময়</label><input id="routineTime" placeholder="সকাল ৬:০০–৭:০০"></div>
+              <div><label data-i18n="lbl_subject_work">বিষয় / কাজ</label><input id="routineSubject" placeholder="গণিত"></div>
+            </div>
+            <button id="addRoutine" data-i18n="btn_add_routine">রুটিনে যোগ করো</button>
+            <div id="routineList" style="margin-top:12px"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== STUDY & TIME TRACKER ==================== -->
+      <section class="page" id="page-study">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>📚 <span data-i18n="study_session_title">পড়াশোনার সেশন রেকর্ড</span></h3></div>
+            <div class="two">
+              <div><label data-i18n="lbl_date">তারিখ</label><input type="date" id="studyDate"></div>
+              <div><label data-i18n="lbl_subject">বিষয়</label><select id="studySubject"></select></div>
+            </div>
+            <div class="two">
+              <div><label data-i18n="lbl_start">শুরু</label><input type="time" id="studyStart"></div>
+              <div><label data-i18n="lbl_end">শেষ</label><input type="time" id="studyEnd"></div>
+            </div>
+            <label data-i18n="lbl_what_studied">কী পড়েছ?</label>
+            <textarea id="studyDetail" placeholder="অধ্যায়, পৃষ্ঠা, অনুশীলনী, অনুবাদ ইত্যাদি"></textarea>
+            <label data-i18n="lbl_understanding">বোঝার অবস্থা</label>
+            <select id="studyLevel">
+              <option>ভালোভাবে বুঝেছি</option>
+              <option>কিছুটা বুঝেছি</option>
+              <option>আবার পড়তে হবে</option>
+            </select>
+            <button id="addStudy" data-i18n="btn_save_record">রেকর্ড সংরক্ষণ</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>⏳ <span data-i18n="other_activity_title">পড়ার বাইরে অন্য কাজের হিসাব</span></h3></div>
+            <div class="two">
+              <div><label data-i18n="lbl_date">তারিখ</label><input type="date" id="otherDate"></div>
+              <div><label data-i18n="lbl_activity_type">কাজের ধরন</label>
+                <select id="otherType">
+                  <option>মোবাইল / সোশ্যাল মিডিয়া</option>
+                  <option>কোডিং / ওয়েবসাইট</option>
+                  <option>ঘুম / বিশ্রাম</option>
+                  <option>পারিবারিক কাজ</option>
+                  <option>নামাজ / ধর্মীয় কাজ</option>
+                  <option>বাইরে যাওয়া</option>
+                  <option>অসুস্থতা / ক্লান্তি</option>
+                  <option>অন্যান্য</option>
+                </select>
+              </div>
+            </div>
+            <div class="two">
+              <div><label data-i18n="lbl_start">শুরু</label><input type="time" id="otherStart"></div>
+              <div><label data-i18n="lbl_end">শেষ</label><input type="time" id="otherEnd"></div>
+            </div>
+            <label data-i18n="lbl_note">বিবরণ</label>
+            <textarea id="otherDetail"></textarea>
+            <button id="addOther" class="secondary" data-i18n="btn_save_other">সময় ব্যবহারের হিসাব রাখো</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card"><div class="card-head"><h3>✅ <span data-i18n="today_study_logs">আজকের পড়ার রেকর্ড</span></h3></div><div id="studyList"></div></div>
+          <div class="card"><div class="card-head"><h3>🕒 <span data-i18n="today_other_logs">আজকের অন্য কাজের রেকর্ড</span></h3></div><div id="otherList"></div></div>
+        </div>
+      </section>
+
+      <!-- ==================== TEACHER / HUZUR HOMEWORK ==================== -->
+      <section class="page" id="page-teacher">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>👨‍🏫 <span data-i18n="teacher_add_title">স্যার / হুজুরের দেওয়া পড়া</span></h3></div>
+            <label data-i18n="lbl_teacher_name">শিক্ষকের নাম</label>
+            <input id="teacherName" placeholder="যেমন: আরবি হুজুর / ইংরেজি স্যার">
+            <div class="two">
+              <div><label data-i18n="lbl_subject">বিষয়</label><select id="teacherSubject"></select></div>
+              <div><label data-i18n="lbl_given_date">দেওয়ার তারিখ</label><input type="date" id="teacherDate"></div>
+            </div>
+            <label data-i18n="lbl_homework_detail">কী পড়া দিয়েছেন?</label>
+            <textarea id="teacherTask" placeholder="পৃষ্ঠা, প্রশ্ন, মুখস্থ, অনুবাদ ইত্যাদি"></textarea>
+            <div class="two">
+              <div><label data-i18n="lbl_due_date">জমা দেওয়ার তারিখ</label><input type="date" id="teacherDue"></div>
+              <div><label data-i18n="lbl_status">অবস্থা</label>
+                <select id="teacherStatus">
+                  <option value="বাকি">বাকি / Pending</option>
+                  <option value="চলমান">চলমান / In Progress</option>
+                  <option value="সম্পন্ন">সম্পন্ন / Completed</option>
+                </select>
+              </div>
+            </div>
+            <button id="addTeacher" data-i18n="btn_save_homework">পড়ার নির্দেশনা সংরক্ষণ</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>📋 <span data-i18n="teacher_list_title">শিক্ষকদের দেওয়া সব পড়া</span></h3></div>
+            <div id="teacherList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== NOTES & PHOTO NOTEBOOK ==================== -->
+      <section class="page" id="page-notes">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>📝 <span data-i18n="note_add_title">ব্যক্তিগত নোট ও ছবির খাতা</span></h3></div>
+            <label data-i18n="lbl_note_title">নোটের শিরোনাম</label>
+            <input id="noteTitle" placeholder="নোটের নাম">
+            <label data-i18n="lbl_subject">বিষয়</label>
+            <select id="noteSubject"></select>
+            <label data-i18n="lbl_note_body">নোট লিখো</label>
+            <textarea id="noteBody" rows="5"></textarea>
+            <label class="filelabel">📷 <span data-i18n="btn_attach_photo">বই/খাতার ছবি যোগ করো</span>
+              <input type="file" id="noteImage" accept="image/*" hidden>
+            </label>
+            <div id="imagePreview"></div>
+            <button id="addNote" data-i18n="btn_save_note">নোট সংরক্ষণ</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>📒 <span data-i18n="note_list_title">সংরক্ষিত নোটসমূহ</span></h3></div>
+            <div id="noteList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== DIGITAL LIBRARY & ONLINE LEARNING ==================== -->
+      <section class="page" id="page-library">
+        <div class="card">
+          <div class="card-head">
+            <h3>🌐 <span data-i18n="online_learning_title">অনলাইন লার্নিং রিসোর্স (Online Learning Resources)</span></h3>
+            <span class="pill" data-i18n="external_disclaimer">স্বাধীন শিক্ষামূলক প্ল্যাটফর্ম • নতুন ট্যাবে খুলবে</span>
+          </div>
+          <div class="grid-3" id="onlineLearningGrid"></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>📖 <span data-i18n="lib_add_title">ব্যক্তিগত বই / PDF যোগ করুন</span></h3></div>
+            <label data-i18n="lbl_book_name">বইয়ের নাম</label>
+            <input id="bookName" placeholder="বইয়ের নাম">
+            <div class="two">
+              <div><label data-i18n="lbl_author">লেখক</label><input id="bookAuthor" placeholder="লেখকের নাম"></div>
+              <div><label data-i18n="lbl_subject">বিষয়</label><select id="bookSubject"></select></div>
+            </div>
+            <label data-i18n="lbl_book_url">Google Drive / PDF লিংক</label>
+            <input id="bookUrl" type="url" placeholder="https://drive.google.com/...">
+            <label data-i18n="lbl_desc">বিবরণ</label>
+            <textarea id="bookDesc"></textarea>
+            <button id="addBook" data-i18n="btn_add_book">লাইব্রেরিতে যোগ করো</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>📚 <span data-i18n="lib_list_title">আমার সংরক্ষিত বইসমূহ</span></h3></div>
+            <div id="bookList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== QR / VIDEO / WEB LINKS ==================== -->
+      <section class="page" id="page-links">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>🔗 <span data-i18n="links_add_title">QR কোড / ভিডিও / ওয়েবসাইট লিংক</span></h3></div>
+            <label data-i18n="lbl_resource_name">রিসোর্সের নাম</label>
+            <input id="linkName" placeholder="যেমন: গণিত অধ্যায় ১ ভিডিও">
+            <div class="two">
+              <div><label data-i18n="lbl_type">ধরন</label>
+                <select id="linkType">
+                  <option>QR কোড</option><option>ভিডিও</option><option>অনলাইন পরীক্ষা</option><option>ওয়েবসাইট</option><option>অন্যান্য</option>
+                </select>
+              </div>
+              <div><label data-i18n="lbl_subject">বিষয়</label><select id="linkSubject"></select></div>
+            </div>
+            <label data-i18n="lbl_url">লিংক (URL)</label>
+            <input id="linkUrl" type="url" placeholder="https://...">
+            <label data-i18n="lbl_desc">বিবরণ</label>
+            <input id="linkDesc" placeholder="কোন অধ্যায় বা কী কাজে লাগবে">
+            <button id="addLink" data-i18n="btn_save_link">রিসোর্স সংরক্ষণ</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🚀 <span data-i18n="links_list_title">সংরক্ষিত রিসোর্সসমূহ</span></h3></div>
+            <div id="linkList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== NOTICE BOARD ==================== -->
+      <section class="page" id="page-notice">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>📢 <span data-i18n="notice_add_title">নোটিশ বোর্ড পরিচালনা</span></h3></div>
+            <label data-i18n="lbl_notice_title">নোটিশের শিরোনাম</label>
+            <input id="noticeTitle" placeholder="জরুরি নোটিশ">
+            <label data-i18n="lbl_notice_body">নোটিশের বিবরণ</label>
+            <textarea id="noticeBody"></textarea>
+            <div class="two">
+              <div><label data-i18n="lbl_date">তারিখ</label><input type="date" id="noticeDate"></div>
+              <div><label data-i18n="lbl_priority">গুরুত্ব</label>
+                <select id="noticePriority">
+                  <option value="জরুরি">জরুরি / Urgent</option>
+                  <option value="গুরুত্বপূর্ণ">গুরুত্বপূর্ণ / Important</option>
+                  <option value="সাধারণ">সাধারণ / Normal</option>
+                </select>
+              </div>
+            </div>
+            <button id="addNotice" data-i18n="btn_publish_notice">হোমপেজে নোটিশ প্রকাশ</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>📌 <span data-i18n="notice_list_title">প্রকাশিত সব নোটিশ</span></h3></div>
+            <div id="noticeList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== PLANS & TO-DO ==================== -->
+      <section class="page" id="page-plans">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>🎯 <span data-i18n="plan_add_title">লক্ষ্য ও টু-ডু লিস্ট</span></h3></div>
+            <label data-i18n="lbl_task_goal">কাজ / লক্ষ্য</label>
+            <input id="planTitle" placeholder="যেমন: ইংরেজি Unit 3 শেষ করব">
+            <div class="two">
+              <div><label data-i18n="lbl_due_date">শেষ তারিখ</label><input type="date" id="planDue"></div>
+              <div><label data-i18n="lbl_type">ধরন</label>
+                <select id="planType">
+                  <option>দৈনিক</option><option>সাপ্তাহিক</option><option>মাসিক</option><option>পরীক্ষার প্রস্তুতি</option><option>ব্যক্তিগত</option>
+                </select>
+              </div>
+            </div>
+            <button id="addPlan" data-i18n="btn_add_plan">লক্ষ্য যোগ করো</button>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>✅ <span data-i18n="plan_list_title">আমার পরিকল্পনা</span></h3>
+              <span class="pill green" id="planProgressBadge">0/0</span>
+            </div>
+            <div id="planList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SCIENTIFIC CALCULATOR & FORMULAS ==================== -->
+      <section class="page" id="page-tools">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head">
+              <h3>🧮 <span data-i18n="calc_title">সায়েন্টিফিক ক্যালকুলেটর</span></h3>
+              <button class="secondary sm" id="calcModeBtn">DEG</button>
+            </div>
+            <div class="calc-wrap">
+              <div class="calc-screen">
+                <div class="calc-meta">
+                  <span id="calcAngleLabel">ANGLE: DEG</span>
+                  <span>ILM CALC PRO</span>
+                </div>
+                <div class="calc-expr" id="calcExpr">0</div>
+                <div class="calc-out" id="calcOut">0</div>
+              </div>
+              <div class="calc-grid" id="calcPad">
+                <button class="fn" data-val="sin(">sin</button>
+                <button class="fn" data-val="cos(">cos</button>
+                <button class="fn" data-val="tan(">tan</button>
+                <button class="fn" data-val="log(">log</button>
+                <button class="fn" data-val="ln(">ln</button>
+
+                <button class="fn" data-val="√(">√</button>
+                <button class="fn" data-val="^2">x²</button>
+                <button class="fn" data-val="^">xʸ</button>
+                <button class="fn" data-val="π">π</button>
+                <button class="fn" data-val="e">e</button>
+
+                <button class="op" data-val="(">(</button>
+                <button class="op" data-val=")">)</button>
+                <button class="op" data-val="%">%</button>
+                <button class="op" data-act="del">DEL</button>
+                <button class="ac" data-act="ac">AC</button>
+
+                <button data-val="7">7</button>
+                <button data-val="8">8</button>
+                <button data-val="9">9</button>
+                <button class="op" data-val="÷">÷</button>
+                <button class="fn" data-act="ans">ANS</button>
+
+                <button data-val="4">4</button>
+                <button data-val="5">5</button>
+                <button data-val="6">6</button>
+                <button class="op" data-val="×">×</button>
+                <button class="op" data-val="-">−</button>
+
+                <button data-val="1">1</button>
+                <button data-val="2">2</button>
+                <button data-val="3">3</button>
+                <button class="op" data-val="+">+</button>
+                <button class="eq" data-act="eq" style="grid-row:span 2">=</button>
+
+                <button data-val="0" style="grid-column:span 2">0</button>
+                <button data-val=".">.</button>
+                <button class="fn" data-val="00">00</button>
+              </div>
+            </div>
+            <div style="margin-top:14px">
+              <div class="card-head">
+                <small class="muted" style="font-weight:700" data-i18n="calc_history">হিসাবের ইতিহাস (History)</small>
+                <button class="ghost sm" id="clearCalcHist" data-i18n="btn_clear">মুছুন</button>
+              </div>
+              <div id="calcHistoryList"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-head"><h3>📐 <span data-i18n="formula_title">গণিতের গুরুত্বপূর্ণ সূত্র</span></h3></div>
+              <label data-i18n="lbl_formula_name">সূত্রের নাম</label>
+              <input id="formulaTitle" placeholder="যেমন: (a + b)² এর সূত্র">
+              <label data-i18n="lbl_formula_body">সূত্র লিখো</label>
+              <textarea id="formulaBody" placeholder="(a + b)² = a² + 2ab + b²"></textarea>
+              <button id="addFormula" data-i18n="btn_save_formula">সূত্র সংরক্ষণ</button>
+              <div id="formulaList" style="margin-top:12px"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>📘 <span data-i18n="english_helper_title">দৈনিক ইংরেজি অনুশীলন</span></h3></div>
+              <div class="quote"><b>Daily 30-Min Routine:</b> 5 New Vocabulary Words • 5 Sentence Translations • 1 Grammar Rule • 10 Min Reading Practice.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== STATEMENT & REPORTS ==================== -->
+      <section class="page" id="page-statement">
+        <div class="card no-print">
+          <div class="card-head"><h3>📊 <span data-i18n="report_gen_title">প্রফেশনাল রিপোর্ট ও স্টেটমেন্ট তৈরি</span></h3></div>
+          <div class="grid-3">
+            <div><label data-i18n="lbl_from_date">শুরুর তারিখ</label><input type="date" id="fromDate"></div>
+            <div><label data-i18n="lbl_to_date">শেষের তারিখ</label><input type="date" id="toDate"></div>
+            <div><label data-i18n="lbl_report_type">রিপোর্টের ধরন</label>
+              <select id="reportType">
+                <option value="all">সম্পূর্ণ পড়াশোনা ও কার্যক্রম রিপোর্ট</option>
+                <option value="study">শুধু পড়াশোনার হিসাব (Study Log)</option>
+                <option value="teacher">শিক্ষকের দেওয়া পড়ার রিপোর্ট</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="makeStatement" data-i18n="btn_generate_report">রিপোর্ট তৈরি করুন</button>
+            <button class="gold" id="printStatement" data-i18n="btn_print_pdf">🖨️ PDF / প্রিন্ট</button>
+            <button class="secondary" id="exportCsvBtn" data-i18n="btn_export_csv">📥 CSV ডাউনলোড</button>
+            <button class="secondary" id="saveSnapshotBtn" data-i18n="btn_save_snapshot">💾 রিপোর্ট সংরক্ষণ</button>
+            <button class="secondary" id="shareReportBtn" data-i18n="btn_share">📤 শেয়ার</button>
+          </div>
+        </div>
+
+        <div id="statementResult"></div>
+
+        <div class="card no-print" style="margin-top:16px">
+          <div class="card-head"><h3>🗂️ <span data-i18n="saved_reports_title">পূর্ববর্তী সংরক্ষিত রিপোর্টসমূহ</span></h3></div>
+          <div id="savedReportsList"></div>
+        </div>
+      </section>
+
+      <!-- ==================== ADVANCED USER PROFILE & SETTINGS ==================== -->
+      <section class="page" id="page-settings">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head">
+              <h3>👤 <span data-i18n="profile_title">শিক্ষার্থী / ব্যবহারকারী প্রোফাইল</span></h3>
+              <span class="pill green" id="profileCompletionBadge">0% Complete</span>
+            </div>
+
+            <div class="profile-banner">
+              <div class="profile-avatar-lg" id="profileAvatarBox">S</div>
+              <div style="flex:1;min-width:180px">
+                <b style="font-size:18px;display:block" id="profileDisplayName">Salman Farshi</b>
+                <small class="muted" id="profileDisplayMeta">ID: ILM-2027-001 • Dakhil 2027</small>
+                <div style="margin-top:8px">
+                  <label class="filelabel" style="margin:0">📷 <span data-i18n="btn_upload_photo">প্রোফাইল ছবি আপলোড</span>
+                    <input type="file" id="profilePhoto" accept="image/*" hidden>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="two">
+              <div><label data-i18n="lbl_full_name">পূর্ণ নাম</label><input id="profileName" placeholder="Full Name"></div>
+              <div><label data-i18n="lbl_user_id">ইউজার আইডি (User ID)</label><input id="profileUserId" placeholder="ILM-2027-001"></div>
+            </div>
+            <div class="two">
+              <div><label data-i18n="lbl_institution">শিক্ষা প্রতিষ্ঠান</label><input id="profileInstitution" placeholder="মাদরাসা / স্কুল / কলেজ"></div>
+              <div><label data-i18n="lbl_class_desig">শ্রেণি / পদবি</label><input id="profileClass" placeholder="Dakhil 2027"></div>
+            </div>
+            <div class="two">
+              <div><label data-i18n="lbl_email">ইমেইল (Gmail)</label><input id="profileEmail" type="email" placeholder="your@gmail.com"></div>
+              <div><label data-i18n="lbl_phone">মোবাইল নম্বর</label><input id="profilePhone" placeholder="01XXXXXXXXX"></div>
+            </div>
+            <label data-i18n="lbl_website">নিজের ওয়েবসাইট / পোর্টফোলিও</label>
+            <input id="profileWebsite" type="url" placeholder="https://...">
+            <label data-i18n="lbl_address">ঠিকানা</label>
+            <textarea id="profileAddress" placeholder="গ্রাম, উপজেলা, জেলা"></textarea>
+            <small class="muted" id="profileCreatedText"></small>
+            <div style="margin-top:10px">
+              <button id="saveProfile" data-i18n="btn_save_profile">প্রোফাইল সংরক্ষণ করুন</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-head"><h3>⚙️ <span data-i18n="app_settings_title">অ্যাপ সেটিংস ও পছন্দসমূহ</span></h3></div>
+              <label data-i18n="lbl_language">ভাষা / Language</label>
+              <select id="language">
+                <option value="bn">বাংলা (Bangla)</option>
+                <option value="en">English</option>
+              </select>
+              <label data-i18n="lbl_theme">থিম মোড (Theme)</label>
+              <select id="themeSelect">
+                <option value="light">Light Mode (আলো)</option>
+                <option value="dark">Dark Mode (অন্ধকার)</option>
+              </select>
+              <div class="two">
+                <div><label data-i18n="lbl_daily_goal">দৈনিক পড়ার লক্ষ্য (ঘণ্টা)</label><input type="number" id="dailyGoal" min="1" max="16" value="6"></div>
+                <div><label data-i18n="lbl_clock_fmt">ঘড়ির ফরম্যাট</label>
+                  <select id="clockFormatSelect">
+                    <option value="12">12-Hour (AM/PM)</option>
+                    <option value="24">24-Hour</option>
+                  </select>
+                </div>
+              </div>
+              <button id="saveSettings" data-i18n="btn_save_settings">সেটিংস সংরক্ষণ</button>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>💾 <span data-i18n="backup_title">ডেটা ব্যাকআপ ও স্টোরেজ তথ্য</span></h3></div>
+              <p class="muted" data-i18n="backup_notice">নিরাপত্তা ও গোপনীয়তার জন্য আপনার সব তথ্য বর্তমান ডিভাইসের ব্রাউজারে (LocalStorage) সংরক্ষিত থাকে। ক্লাউড সিঙ্ক বা সার্ভার ব্যাকএন্ড না থাকায় অন্য ডিভাইসে নিতে নিচের ব্যাকআপ বাটন ব্যবহার করে JSON ফাইল ডাউনলোড করুন।</p>
+              <div class="actions">
+                <button id="exportData" data-i18n="btn_export_json">📤 সব ডেটা ব্যাকআপ (JSON)</button>
+                <label class="filelabel" style="margin:0">📥 <span data-i18n="btn_import_json">ব্যাকআপ রিস্টোর</span>
+                  <input type="file" id="importData" accept=".json" hidden>
+                </label>
+                <button class="danger" id="resetData" data-i18n="btn_reset_all">সব ডেটা রিসেট</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer no-print">
+        <b>ILM (ইলম) — Intelligent Learning &amp; Management</b> • Learn, Organize, Calculate &amp; Grow.<br>
+        <span id="footerSite">salmanfarshi1630.github.io</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<nav class="bottom-nav no-print" id="bottomNav">
+  <button class="active" data-page="home"><span class="ico">🏠</span><span data-i18n="bnav_home">হোম</span></button>
+  <button data-page="islamic"><span class="ico">🕌</span><span data-i18n="bnav_islamic">ইসলামিক</span></button>
+  <button data-page="study"><span class="ico">📚</span><span data-i18n="bnav_study">পড়া</span></button>
+  <button data-page="tools"><span class="ico">🧮</span><span data-i18n="bnav_calc">হিসাব</span></button>
+  <button data-page="settings"><span class="ico">👤</span><span data-i18n="bnav_profile">প্রোফাইল</span></button>
+</nav>
+
+<!-- CUSTOM MODAL (Replaces alert/confirm) -->
+<div class="modal-backdrop hidden" id="modalBackdrop">
+  <div class="modal-box">
+    <h3 id="modalTitle" style="margin:0 0 8px"></h3>
+    <p id="modalMsg" style="margin:0 0 12px;font-size:14px;color:var(--muted)"></p>
+    <input id="modalInput" class="hidden" type="text">
+    <div class="actions" style="justify-content:flex-end">
+      <button class="secondary" id="modalCancel">বাতিল</button>
+      <button id="modalConfirm">ঠিক আছে</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   1. CENTRALIZED BILINGUAL DICTIONARY (BN / EN)
+   ========================================================================== */
+const I18N = {
+  bn: {
+    nav_home: '🏠 হোম ড্যাশবোর্ড',
+    nav_islamic: '🕌 ইসলামিক কর্ণার',
+    nav_routine: '🗓️ ১৪ বিষয়ের রুটিন',
+    nav_study: '📚 পড়াশোনার হিসাব',
+    nav_teacher: '👨‍🏫 স্যার/হুজুরের পড়া',
+    nav_notes: '📝 নোট ও ছবির খাতা',
+    nav_library: '📖 ডিজিটাল লাইব্রেরি',
+    nav_links: '🔗 QR / ভিডিও / ওয়েব লিংক',
+    nav_notice: '📢 নোটিশ বোর্ড',
+    nav_plans: '🎯 প্ল্যান ও টু-ডু',
+    nav_tools: '🧮 ক্যালকুলেটর ও সূত্র',
+    nav_statement: '📊 স্টেটমেন্ট ও রিপোর্ট',
+    nav_settings: '👤 প্রোফাইল ও সেটিংস',
+    bnav_home: 'হোম', bnav_islamic: 'ইসলামিক', bnav_study: 'পড়া', bnav_calc: 'হিসাব', bnav_profile: 'প্রোফাইল',
+    important_notice: 'গুরুত্বপূর্ণ নোটিশ / ANNOUNCEMENT',
+    manage_notices: '+ নোটিশ পরিচালনা',
+    hero_sub: 'ILM — Intelligent Learning & Management • Learn, Organize, Calculate & Grow.',
+    qa_islamic: 'ইসলামিক কর্ণার', qa_study: 'পড়ার হিসাব', qa_teacher: 'শিক্ষকের পড়া', qa_calc: 'ক্যালকুলেটর', qa_resources: 'অনলাইন শিক্ষা',
+    qa_routine: '১৪ বিষয় রুটিন', qa_notes: 'নোট খাতা', qa_plans: 'প্ল্যান ও টু-ডু', qa_report: 'রিপোর্ট / PDF',
+    stat_today_study: 'আজ পড়াশোনা', stat_other_time: 'অন্য কাজে সময়', stat_daily_goal: 'আজকের লক্ষ্য', stat_goal_progress: 'লক্ষ্য পূরণ',
+    clock_title: 'ডিজিটাল ঘড়ি', clock_note: 'সময়ের সঠিক ব্যবহারই সফলতার চাবিকাঠি।',
+    today_btn: 'আজ', add_reminder: '+ রিমাইন্ডার',
+    quick_study_title: 'দ্রুত পড়া যোগ করুন', lbl_subject: 'বিষয়', lbl_minutes: 'মিনিট', lbl_what_studied: 'কী পড়েছ?',
+    ph_quick_detail: 'যেমন: অনুবাদ / অনুশীলনী', btn_add_study: 'পড়ার হিসাব যোগ',
+    today_tasks_title: 'আজকের করণীয় ও শিক্ষকের পড়া', btn_all: 'সব দেখুন',
+    routine_14_title: '১৪ বিষয়ের তালিকা সম্পাদনা', routine_14_desc: 'তোমার সিলেবাস অনুযায়ী ১৪টি বিষয়ের নাম পরিবর্তন ও সংরক্ষণ করো।',
+    btn_save_subjects: 'বিষয় সংরক্ষণ', weekly_schedule_title: 'সাপ্তাহিক পড়ার সময়সূচি',
+    lbl_day: 'দিন', lbl_time_slot: 'সময়', lbl_subject_work: 'বিষয় / কাজ', btn_add_routine: 'রুটিনে যোগ করো',
+    study_session_title: 'পড়াশোনার সেশন রেকর্ড', lbl_date: 'তারিখ', lbl_start: 'শুরু', lbl_end: 'শেষ',
+    lbl_understanding: 'বোঝার অবস্থা', btn_save_record: 'রেকর্ড সংরক্ষণ',
+    other_activity_title: 'পড়ার বাইরে অন্য কাজের হিসাব', lbl_activity_type: 'কাজের ধরন', lbl_note: 'বিবরণ',
+    btn_save_other: 'সময় ব্যবহারের হিসাব রাখো', today_study_logs: 'আজকের পড়ার রেকর্ড', today_other_logs: 'আজকের অন্য কাজের রেকর্ড',
+    teacher_add_title: 'স্যার / হুজুরের দেওয়া পড়া', lbl_teacher_name: 'শিক্ষকের নাম', lbl_given_date: 'দেওয়ার তারিখ',
+    lbl_homework_detail: 'কী পড়া দিয়েছেন?', lbl_due_date: 'জমা দেওয়ার তারিখ', lbl_status: 'অবস্থা',
+    btn_save_homework: 'পড়ার নির্দেশনা সংরক্ষণ', teacher_list_title: 'শিক্ষকদের দেওয়া সব পড়া',
+    note_add_title: 'ব্যক্তিগত নোট ও ছবির খাতা', lbl_note_title: 'নোটের শিরোনাম', lbl_note_body: 'নোট লিখো',
+    btn_attach_photo: 'বই/খাতার ছবি যোগ করো', btn_save_note: 'নোট সংরক্ষণ', note_list_title: 'সংরক্ষিত নোটসমূহ',
+    online_learning_title: 'অনলাইন লার্নিং রিসোর্স (Online Learning Resources)',
+    external_disclaimer: 'স্বাধীন শিক্ষামূলক প্ল্যাটফর্ম • নতুন ট্যাবে খুলবে',
+    lib_add_title: 'ব্যক্তিগত বই / PDF যোগ করুন', lbl_book_name: 'বইয়ের নাম', lbl_author: 'লেখক',
+    lbl_book_url: 'Google Drive / PDF লিংক', lbl_desc: 'বিবরণ', btn_add_book: 'লাইব্রেরিতে যোগ করো',
+    lib_list_title: 'আমার সংরক্ষিত বইসমূহ',
+    links_add_title: 'QR কোড / ভিডিও / ওয়েবসাইট লিংক', lbl_resource_name: 'রিসোর্সের নাম', lbl_type: 'ধরন',
+    lbl_url: 'লিংক (URL)', btn_save_link: 'রিসোর্স সংরক্ষণ', links_list_title: 'সংরক্ষিত রিসোর্সসমূহ',
+    notice_add_title: 'নোটিশ বোর্ড পরিচালনা', lbl_notice_title: 'নোটিশের শিরোনাম', lbl_notice_body: 'নোটিশের বিবরণ',
+    lbl_priority: 'গুরুত্ব', btn_publish_notice: 'হোমপেজে নোটিশ প্রকাশ', notice_list_title: 'প্রকাশিত সব নোটিশ',
+    plan_add_title: 'লক্ষ্য ও টু-ডু লিস্ট', lbl_task_goal: 'কাজ / লক্ষ্য', btn_add_plan: 'লক্ষ্য যোগ করো',
+    plan_list_title: 'আমার পরিকল্পনা',
+    calc_title: 'সায়েন্টিফিক ক্যালকুলেটর', calc_history: 'হিসাবের ইতিহাস', btn_clear: 'মুছুন',
+    formula_title: 'গণিতের গুরুত্বপূর্ণ সূত্র', lbl_formula_name: 'সূত্রের নাম', lbl_formula_body: 'সূত্র লিখো',
+    btn_save_formula: 'সূত্র সংরক্ষণ', english_helper_title: 'দৈনিক ইংরেজি অনুশীলন',
+    report_gen_title: 'প্রফেশনাল রিপোর্ট ও স্টেটমেন্ট তৈরি', lbl_from_date: 'শুরুর তারিখ', lbl_to_date: 'শেষের তারিখ',
+    lbl_report_type: 'রিপোর্টের ধরন', btn_generate_report: 'রিপোর্ট তৈরি করুন', btn_print_pdf: '🖨️ PDF / প্রিন্ট',
+    btn_export_csv: '📥 CSV ডাউনলোড', btn_save_snapshot: '💾 রিপোর্ট সংরক্ষণ', btn_share: '📤 শেয়ার',
+    saved_reports_title: 'পূর্ববর্তী সংরক্ষিত রিপোর্টসমূহ',
+    profile_title: 'শিক্ষার্থী / ব্যবহারকারী প্রোফাইল', btn_upload_photo: 'প্রোফাইল ছবি আপলোড',
+    lbl_full_name: 'পূর্ণ নাম', lbl_user_id: 'ইউজার আইডি (User ID)', lbl_institution: 'শিক্ষা প্রতিষ্ঠান',
+    lbl_class_desig: 'শ্রেণি / পদবি', lbl_email: 'ইমেইল (Gmail)', lbl_phone: 'মোবাইল নম্বর',
+    lbl_website: 'নিজের ওয়েবসাইট / পোর্টফোলিও', lbl_address: 'ঠিকানা', btn_save_profile: 'প্রোফাইল সংরক্ষণ করুন',
+    app_settings_title: 'অ্যাপ সেটিংস ও পছন্দসমূহ', lbl_language: 'ভাষা / Language', lbl_theme: 'থিম মোড (Theme)',
+    lbl_daily_goal: 'দৈনিক পড়ার লক্ষ্য (ঘণ্টা)', lbl_clock_fmt: 'ঘড়ির ফরম্যাট', btn_save_settings: 'সেটিংস সংরক্ষণ',
+    backup_title: 'ডেটা ব্যাকআপ ও স্টোরেজ তথ্য',
+    backup_notice: 'নিরাপত্তা ও গোপনীয়তার জন্য আপনার সব তথ্য বর্তমান ডিভাইসের ব্রাউজারে (LocalStorage) সংরক্ষিত থাকে। অন্য ডিভাইসে নিতে নিচের ব্যাকআপ বাটন ব্যবহার করে JSON ফাইল ডাউনলোড করুন।',
+    btn_export_json: '📤 সব ডেটা ব্যাকআপ (JSON)', btn_import_json: '📥 ব্যাকআপ রিস্টোর', btn_reset_all: 'সব ডেটা রিসেট',
+    empty_list: 'এখনো কোনো তথ্য যোগ করা হয়নি।',
+    open_site: 'ওয়েবসাইট খুলুন ↗', open_book: 'বই খুলুন ↗', edit: 'সম্পাদনা', del: 'মুছুন',
+    saved_toast: 'সফলভাবে সংরক্ষিত হয়েছে!', deleted_toast: 'তথ্য মুছে ফেলা হয়েছে।',
+    confirm_delete: 'আপনি কি নিশ্চিতভাবে এই তথ্যটি মুছে ফেলতে চান?'
+  },
+  en: {
+    nav_home: '🏠 Home Dashboard',
+    nav_islamic: '🕌 Islamic Corner',
+    nav_routine: '🗓️ 14-Subject Routine',
+    nav_study: '📚 Study & Time Log',
+    nav_teacher: '👨‍🏫 Teacher Homework',
+    nav_notes: '📝 Notes & Photo Book',
+    nav_library: '📖 Digital Library',
+    nav_links: '🔗 QR / Video / Web Links',
+    nav_notice: '📢 Notice Board',
+    nav_plans: '🎯 Plans & To-Do',
+    nav_tools: '🧮 Calculator & Formulas',
+    nav_statement: '📊 Statements & Reports',
+    nav_settings: '👤 Profile & Settings',
+    bnav_home: 'Home', bnav_islamic: 'Islamic', bnav_study: 'Study', bnav_calc: 'Tools', bnav_profile: 'Profile',
+    important_notice: 'IMPORTANT NOTICE / ANNOUNCEMENT',
+    manage_notices: '+ Manage Notices',
+    hero_sub: 'ILM — Intelligent Learning & Management • Learn, Organize, Calculate & Grow.',
+    qa_islamic: 'Islamic Corner', qa_study: 'Study Log', qa_teacher: 'Homework', qa_calc: 'Calculator', qa_resources: 'E-Learning',
+    qa_routine: '14 Subjects', qa_notes: 'Notebooks', qa_plans: 'Plans & To-Do', qa_report: 'PDF Report',
+    stat_today_study: 'Studied Today', stat_other_time: 'Other Activities', stat_daily_goal: 'Daily Target', stat_goal_progress: 'Goal Progress',
+    clock_title: 'Digital Clock', clock_note: 'Disciplined time management leads to excellence.',
+    today_btn: 'Today', add_reminder: '+ Reminder',
+    quick_study_title: 'Quick Study Log', lbl_subject: 'Subject', lbl_minutes: 'Minutes', lbl_what_studied: 'Topic Studied',
+    ph_quick_detail: 'e.g., Chapter 2 Translation / Exercises', btn_add_study: 'Add Study Time',
+    today_tasks_title: "Today's Tasks & Homework", btn_all: 'View All',
+    routine_14_title: 'Edit 14-Subject Syllabus List', routine_14_desc: 'Customize and save your 14 academic subjects.',
+    btn_save_subjects: 'Save Subjects', weekly_schedule_title: 'Weekly Study Timetable',
+    lbl_day: 'Day', lbl_time_slot: 'Time Slot', lbl_subject_work: 'Subject / Task', btn_add_routine: 'Add to Routine',
+    study_session_title: 'Record Study Session', lbl_date: 'Date', lbl_start: 'Start Time', lbl_end: 'End Time',
+    lbl_understanding: 'Comprehension Level', btn_save_record: 'Save Study Record',
+    other_activity_title: 'Non-Study Activity Tracker', lbl_activity_type: 'Activity Category', lbl_note: 'Details',
+    btn_save_other: 'Log Activity Time', today_study_logs: "Today's Study Sessions", today_other_logs: "Today's Other Activities",
+    teacher_add_title: 'Assign Teacher / Huzur Homework', lbl_teacher_name: 'Teacher / Huzur Name', lbl_given_date: 'Assigned Date',
+    lbl_homework_detail: 'Homework Instructions', lbl_due_date: 'Due Date', lbl_status: 'Status',
+    btn_save_homework: 'Save Homework', teacher_list_title: 'All Assigned Homework',
+    note_add_title: 'Personal Notes & Photo Notebook', lbl_note_title: 'Note Title', lbl_note_body: 'Write Note',
+    btn_attach_photo: 'Attach Book/Notebook Photo', btn_save_note: 'Save Note', note_list_title: 'Saved Notes',
+    online_learning_title: 'Online Learning Resources',
+    external_disclaimer: 'Independent Educational Platforms • Opens in New Tab',
+    lib_add_title: 'Add Personal Book / PDF', lbl_book_name: 'Book Title', lbl_author: 'Author',
+    lbl_book_url: 'Google Drive / PDF Link', lbl_desc: 'Description', btn_add_book: 'Add to Library',
+    lib_list_title: 'My Saved Books',
+    links_add_title: 'QR Code / Video / Website Links', lbl_resource_name: 'Resource Title', lbl_type: 'Category',
+    lbl_url: 'URL Link', btn_save_link: 'Save Resource', links_list_title: 'Saved Study Links',
+    notice_add_title: 'Manage Notice Board', lbl_notice_title: 'Notice Headline', lbl_notice_body: 'Announcement Details',
+    lbl_priority: 'Priority Level', btn_publish_notice: 'Publish to Dashboard', notice_list_title: 'Published Notices',
+    plan_add_title: 'Goals & To-Do Planner', lbl_task_goal: 'Goal / Task', btn_add_plan: 'Add Goal',
+    plan_list_title: 'My Action Plan',
+    calc_title: 'Scientific Calculator', calc_history: 'Calculation History', btn_clear: 'Clear',
+    formula_title: 'Mathematics Formula Bank', lbl_formula_name: 'Formula Name', lbl_formula_body: 'Formula Expression',
+    btn_save_formula: 'Save Formula', english_helper_title: 'Daily English Practice',
+    report_gen_title: 'Generate Professional Statement & Report', lbl_from_date: 'From Date', lbl_to_date: 'To Date',
+    lbl_report_type: 'Report Type', btn_generate_report: 'Generate Report', btn_print_pdf: '🖨️ Print / Save PDF',
+    btn_export_csv: '📥 Export CSV', btn_save_snapshot: '💾 Save Snapshot', btn_share: '📤 Share',
+    saved_reports_title: 'Saved Report Snapshots',
+    profile_title: 'Student / User Profile', btn_upload_photo: 'Upload Profile Photo',
+    lbl_full_name: 'Full Name', lbl_user_id: 'User ID', lbl_institution: 'Educational Institution',
+    lbl_class_desig: 'Class / Designation', lbl_email: 'Email (Gmail)', lbl_phone: 'Phone Number',
+    lbl_website: 'Personal Website / Portfolio', lbl_address: 'Address', btn_save_profile: 'Save Profile',
+    app_settings_title: 'Application Preferences', lbl_language: 'Language / ভাষা', lbl_theme: 'Theme Mode',
+    lbl_daily_goal: 'Daily Study Target (Hours)', lbl_clock_fmt: 'Clock Format', btn_save_settings: 'Save Settings',
+    backup_title: 'Data Backup & Storage Transparency',
+    backup_notice: 'All records are stored locally in your current browser (LocalStorage) for privacy and offline speed. Without a cloud backend, data does not auto-sync across devices—use JSON Backup below to transfer data.',
+    btn_export_json: '📤 Export Backup (JSON)', btn_import_json: '📥 Restore Backup', btn_reset_all: 'Reset All Data',
+    empty_list: 'No records added yet.',
+    open_site: 'Visit Platform ↗', open_book: 'Open Book ↗', edit: 'Edit', del: 'Delete',
+    saved_toast: 'Saved successfully!', deleted_toast: 'Item deleted.',
+    confirm_delete: 'Are you sure you want to delete this item?'
+  }
+};
+
+/* ==========================================================================
+   2. VERIFIED ONLINE LEARNING RESOURCES
+   ========================================================================== */
+const ONLINE_RESOURCES = [
+  { name: 'At-Tadrees Online Madrasa', url: 'https://tadrees.com/', icon: '🕌', desc_bn: 'ইসলামিক ও মাদরাসা শিক্ষার আধুনিক অনলাইন লার্নিং প্ল্যাটফর্ম।', desc_en: 'Modern online Islamic and Madrasa education platform.' },
+  { name: '10 Minute School', url: 'https://10minuteschool.com/', icon: '🎓', desc_bn: 'বাংলাদেশের অন্যতম বৃহৎ অনলাইন একাডেমিক ও স্কিল ডেভেলপমেন্ট প্ল্যাটফর্ম।', desc_en: 'Leading Bangladeshi online academic and skill learning platform.' },
+  { name: 'Muktopaath', url: 'https://muktopaath.gov.bd/', icon: '🇧🇩', desc_bn: 'বাংলাদেশ সরকারের জাতীয় ই-লার্নিং ও দক্ষতা উন্নয়ন প্ল্যাটফর্ম।', desc_en: 'National e-learning platform of the Government of Bangladesh.' },
+  { name: 'Khan Academy', url: 'https://www.khanacademy.org/', icon: '📐', desc_bn: 'গণিত, বিজ্ঞান ও বিশ্বমানের বিনামূল্যে একাডেমিক শিক্ষার প্ল্যাটফর্ম।', desc_en: 'Free world-class education in mathematics, science, and more.' },
+  { name: 'YouTube Educational Learning', url: 'https://www.youtube.com/', icon: '▶️', desc_bn: 'বিষয়ভিত্তিক ভিডিও লেকচার, টিউটোরিয়াল ও একাডেমিক ক্লাস।', desc_en: 'Subject-wise video lectures, tutorials, and academic classes.' },
+  { name: 'Google Classroom', url: 'https://classroom.google.com/', icon: '🏫', desc_bn: 'শিক্ষক ও শিক্ষার্থীদের অনলাইন ক্লাস, অ্যাসাইনমেন্ট ও নোট ব্যবস্থাপনা।', desc_en: 'Online classroom management, assignments, and study materials.' }
+];
+
+/* ==========================================================================
+   3. STATE MANAGEMENT & LOCALSTORAGE MIGRATION
+   ========================================================================== */
+const $ = id => document.getElementById(id);
+const todayStr = () => new Date().toLocaleDateString('en-CA');
+
+const DEFAULT_SUBJECTS = [
+  'কুরআন মাজিদ', 'হাদিস শরিফ', 'আকাইদ ও ফিকহ', 'আরবি ১ম পত্র', 'আরবি ২য় পত্র',
+  'বাংলা ১ম পত্র', 'বাংলা ২য় পত্র', 'ইংরেজি ১ম পত্র', 'ইংরেজি ২য় পত্র', 'গণিত',
+  'তথ্য ও যোগাযোগ প্রযুক্তি', 'বিজ্ঞান', 'বাংলাদেশ ও বিশ্বপরিচয়', 'ঐচ্ছিক / অন্যান্য'
+];
+
+const DEFAULT_STATE = {
+  subjects: DEFAULT_SUBJECTS,
+  studies: [],
+  others: [],
+  teachers: [],
+  notes: [],
+  books: [],
+  links: [],
+  notices: [
+    {
+      id: 1001,
+      title: 'ILM (ইলম) প্ল্যাটফর্মে স্বাগতম — Dakhil 2027 প্রস্তুতি',
+      body: 'প্রতিদিনের পড়ার হিসাব, স্যার/হুজুরের দেওয়া কাজ এবং সাপ্তাহিক রুটিন নিয়মিত আপডেট রাখুন।',
+      date: todayStr(),
+      priority: 'গুরুত্বপূর্ণ'
+    }
+  ],
+  plans: [],
+  routines: [],
+  formulas: [
+    { id: 2001, title: 'বীজগণিত বর্গের সূত্র', body: '(a + b)² = a² + 2ab + b²  |  (a - b)² = a² - 2ab + b²' }
+  ],
+  events: [],
+  calcHistory: [],
+  reports: [],
+  recentPages: ['islamic', 'study', 'teacher', 'tools'],
+  profile: {
+    name: 'Salman Farshi',
+    userId: 'ILM-2027-001',
+    institution: '',
+    classDesig: 'Dakhil 2027',
+    email: '',
+    phone: '',
+    address: '',
+    website: 'https://salmanfarshi1630.github.io',
+    photo: '',
+    createdAt: todayStr()
+  },
+  settings: {
+    goal: 6,
+    theme: 'light',
+    language: 'bn',
+    clock24: false
+  }
+};
+
+function loadDB() {
+  try {
+    const raw = JSON.parse(localStorage.getItem('salmanStudyHub') || '{}');
+    const merged = {
+      ...structuredClone(DEFAULT_STATE),
+      ...raw,
+      profile: { ...structuredClone(DEFAULT_STATE.profile), ...(raw.profile || {}) },
+      settings: { ...structuredClone(DEFAULT_STATE.settings), ...(raw.settings || {}) }
+    };
+    if (!Array.isArray(merged.subjects) || merged.subjects.length === 0) merged.subjects = [...DEFAULT_SUBJECTS];
+    if (Array.isArray(raw.notices) && raw.notices.length > 0) merged.notices = raw.notices;
+    return merged;
+  } catch (e) {
+    return structuredClone(DEFAULT_STATE);
+  }
+}
+
+let db = loadDB();
+let activePage = 'home';
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let selectedCalDate = todayStr();
+
+function saveDB() {
+  try {
+    localStorage.setItem('salmanStudyHub', JSON.stringify(db));
+  } catch (e) {
+    showToast(lang() === 'bn' ? 'স্টোরেজ পূর্ণ! ছবির আকার ছোট করুন বা ব্যাকআপ নিন।' : 'Storage full! Reduce image size or export backup.');
+  }
+}
+
+const lang = () => db.settings.language || 'bn';
+const t = key => (I18N[lang()] && I18N[lang()][key]) || I18N.bn[key] || key;
+
+function esc(s = '') {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function minsBetween(start, end) {
+  if (!start || !end) return 0;
+  const [h1, m1] = start.split(':').map(Number);
+  const [h2, m2] = end.split(':').map(Number);
+  const diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+  return diff < 0 ? diff + 1440 : diff;
+}
+
+function formatDuration(mins) {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (lang() === 'en') return `${h}h ${m}m`;
+  return `${h} ঘণ্টা ${m} মি.`;
+}
+
+/* ==========================================================================
+   4. UI HELPERS: TOAST, MODAL, NAVIGATION, TRANSLATION
+   ========================================================================== */
+function showToast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+function uiDialog({ title, message, input = false, defaultValue = '', confirmOnly = false }) {
+  return new Promise(resolve => {
+    const backdrop = $('modalBackdrop');
+    const inp = $('modalInput');
+    const cancelBtn = $('modalCancel');
+    const okBtn = $('modalConfirm');
+    $('modalTitle').textContent = title;
+    $('modalMsg').textContent = message;
+    cancelBtn.textContent = lang() === 'bn' ? 'বাতিল' : 'Cancel';
+    okBtn.textContent = lang() === 'bn' ? 'নিশ্চিত' : 'OK';
+    cancelBtn.classList.toggle('hidden', confirmOnly);
+    inp.classList.toggle('hidden', !input);
+    inp.value = defaultValue;
+    backdrop.classList.remove('hidden');
+    if (input) setTimeout(() => inp.focus(), 50);
+
+    const cleanup = val => {
+      backdrop.classList.add('hidden');
+      okBtn.onclick = null;
+      cancelBtn.onclick = null;
+      resolve(val);
+    };
+    okBtn.onclick = () => cleanup(input ? inp.value : true);
+    cancelBtn.onclick = () => cleanup(input ? null : false);
+  });
+}
+
+function applyTranslations() {
+  document.documentElement.lang = lang();
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPh);
+  });
+  $('langBtn').textContent = lang() === 'bn' ? 'EN' : 'বাংলা';
+  $('globalSearch').placeholder = lang() === 'bn' ? 'নোট, বই, পড়া, সূত্র খুঁজুন...' : 'Search notes, books, homework, formulas...';
+  const activeNavBtn = document.querySelector(`#nav button[data-page="${activePage}"]`);
+  if (activeNavBtn) $('pageTitle').textContent = activeNavBtn.textContent.trim();
+}
+
+function goPage(page) {
+  activePage = page;
+  document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  document.querySelectorAll('#bottomNav button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = $('page-' + page);
+  if (target) target.classList.add('active');
+
+  const navBtn = document.querySelector(`#nav button[data-page="${page}"]`);
+  if (navBtn) $('pageTitle').textContent = navBtn.textContent.trim();
+
+  if (page !== 'home') {
+    db.recentPages = [page, ...db.recentPages.filter(p => p !== page)].slice(0, 4);
+    saveDB();
+  }
+  closeSidebar();
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeSidebar() {
+  $('sidebar').classList.remove('open');
+  $('sidebarBackdrop').classList.remove('open');
+}
+
+/* ==========================================================================
+   5. DIGITAL CLOCK & INTERACTIVE MONTHLY CALENDAR
+   ========================================================================== */
+function updateClock() {
+  const now = new Date();
+  const is24 = !!db.settings.clock24;
+  let h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+
+  if (!is24) {
+    h = h % 12 || 12;
+  }
+  $('clockTime').textContent = `${String(h).padStart(2, '0')}:${m}:${s}`;
+  $('clockAmPm').textContent = is24 ? '24H' : ampm;
+
+  const locale = lang() === 'bn' ? 'bn-BD' : 'en-US';
+  const dateFull = now.toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  $('clockFullDate').textContent = dateFull;
+  $('todayText').textContent = dateFull;
+}
+
+function renderCalendar() {
+  const locale = lang() === 'bn' ? 'bn-BD' : 'en-US';
+  const monthDate = new Date(calYear, calMonth, 1);
+  $('calMonthTitle').textContent = monthDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+
+  const dows = lang() === 'bn'
+    ? ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহঃ', 'শুক্র', 'শনি']
+    : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const today = todayStr();
+
+  const activeDates = new Set([
+    ...db.studies.map(x => x.date),
+    ...db.teachers.map(x => x.due),
+    ...db.plans.map(x => x.due),
+    ...db.events.map(x => x.date)
+  ]);
+
+  let html = dows.map(d => `<div class="cal-dow">${d}</div>`).join('');
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-day empty"></div>`;
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const iso = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const isToday = iso === today ? 'today' : '';
+    const isSel = iso === selectedCalDate ? 'selected' : '';
+    const hasDot = activeDates.has(iso) ? '<span class="cal-dot"></span>' : '';
+    html += `<button type="button" class="cal-day ${isToday} ${isSel}" onclick="selectCalDay('${iso}')">${d}${hasDot}</button>`;
+  }
+  $('calGrid').innerHTML = html;
+  renderCalendarDetails();
+}
+
+function selectCalDay(iso) {
+  selectedCalDate = iso;
+  renderCalendar();
+}
+
+function renderCalendarDetails() {
+  $('calSelectedLabel').textContent = (lang() === 'bn' ? 'নির্বাচিত তারিখ: ' : 'Selected Date: ') + selectedCalDate;
+  const evs = db.events.filter(e => e.date === selectedCalDate);
+  const hw = db.teachers.filter(x => x.due === selectedCalDate);
+  const pl = db.plans.filter(x => x.due === selectedCalDate);
+  const st = db.studies.filter(x => x.date === selectedCalDate);
+
+  const items = [
+    ...evs.map(e => `🔔 ${esc(e.title)} <button class="ghost sm" style="color:var(--red);padding:2px 6px" onclick="deleteEvent(${e.id})">✕</button>`),
+    ...hw.map(x => `👨‍🏫 ${esc(x.subject)}: ${esc(x.task)}`),
+    ...pl.map(x => `🎯 ${esc(x.title)}`),
+    ...(st.length ? [`📚 ${formatDuration(st.reduce((a, b) => a + b.minutes, 0))}`] : [])
+  ];
+  $('calSelectedDetails').innerHTML = items.length
+    ? items.map(i => `<div style="padding:3px 0">${i}</div>`).join('')
+    : `<span class="muted">${lang() === 'bn' ? 'এই তারিখে কোনো রিমাইন্ডার নেই।' : 'No reminders on this date.'}</span>`;
+}
+
+function deleteEvent(id) {
+  db.events = db.events.filter(e => e.id !== id);
+  saveDB();
+  renderCalendar();
+}
+
+/* ==========================================================================
+   6. SCIENTIFIC CALCULATOR ENGINE
+   ========================================================================== */
+let calcExpression = '';
+let calcLastAns = '0';
+let calcDegMode = true;
+
+function updateCalcScreen(outText) {
+  $('calcExpr').textContent = calcExpression || '0';
+  if (outText !== undefined) $('calcOut').textContent = outText;
+}
+
+function evaluateScientific(rawExpr) {
+  if (!rawExpr || !rawExpr.trim()) return 0;
+  let expr = rawExpr
+    .replace(/×/g, '*')
+    .replace(/÷/g, '/')
+    .replace(/−/g, '-')
+    .replace(/π/g, `(${Math.PI})`)
+    .replace(/\be\b/g, `(${Math.E})`)
+    .replace(/ANS/g, `(${calcLastAns})`)
+    .replace(/√\(/g, 'Math.sqrt(')
+    .replace(/log\(/g, 'Math.log10(')
+    .replace(/ln\(/g, 'Math.log(')
+    .replace(/\^/g, '**')
+    .replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
+
+  const toRad = x => (calcDegMode ? (x * Math.PI) / 180 : x);
+  const sinFn = x => Math.sin(toRad(x));
+  const cosFn = x => Math.cos(toRad(x));
+  const tanFn = x => Math.tan(toRad(x));
+
+  expr = expr
+    .replace(/\bsin\(/g, 'sinFn(')
+    .replace(/\bcos\(/g, 'cosFn(')
+    .replace(/\btan\(/g, 'tanFn(');
+
+  const openCount = (expr.match(/\(/g) || []).length;
+  const closeCount = (expr.match(/\)/g) || []).length;
+  if (openCount > closeCount) expr += ')'.repeat(openCount - closeCount);
+
+  const stripped = expr.replace(/Math\.(sqrt|log10|log)|sinFn|cosFn|tanFn/g, '');
+  if (/[^0-9+\-*/().\s]/.test(stripped)) throw new Error('Invalid Expression');
+
+  const result = Function('sinFn', 'cosFn', 'tanFn', `"use strict"; return (${expr});`)(sinFn, cosFn, tanFn);
+  if (typeof result !== 'number' || !Number.isFinite(result)) throw new Error('Math Error');
+  return Math.round(result * 1e10) / 1e10;
+}
+
+function renderCalcHistory() {
+  const list = $('calcHistoryList');
+  if (!db.calcHistory.length) {
+    list.innerHTML = `<div class="empty">${t('empty_list')}</div>`;
+    return;
+  }
+  list.innerHTML = db.calcHistory.map(h => `
+    <div class="item" style="cursor:pointer;padding:8px 4px" onclick="reuseCalc('${esc(h.res)}')">
+      <small>${esc(h.expr)}</small>
+      <b>= ${esc(h.res)}</b>
+    </div>
+  `).join('');
+}
+
+function reuseCalc(val) {
+  calcExpression += String(val);
+  updateCalcScreen();
+}
+
+/* ==========================================================================
+   7. RENDER MODULES
+   ========================================================================== */
+function populateSubjectSelects() {
+  const html = db.subjects.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+  ['quickSubject', 'studySubject', 'teacherSubject', 'noteSubject', 'bookSubject', 'linkSubject'].forEach(id => {
+    const el = $(id);
+    if (el) el.innerHTML = html;
+  });
+}
+
+function renderHome() {
+  const today = todayStr();
+  const studyMins = db.studies.filter(x => x.date === today).reduce((a, x) => a + x.minutes, 0);
+  const otherMins = db.others.filter(x => x.date === today).reduce((a, x) => a + x.minutes, 0);
+  const goalMins = (Number(db.settings.goal) || 6) * 60;
+  const pct = Math.min(100, Math.round((studyMins / goalMins) * 100));
+
+  $('homeStudy').textContent = formatDuration(studyMins);
+  $('homeOther').textContent = formatDuration(otherMins);
+  $('homeGoal').textContent = lang() === 'en' ? `${db.settings.goal} hrs` : `${db.settings.goal} ঘণ্টা`;
+  $('homePercent').textContent = `${pct}%`;
+  $('homeProgressBar').style.width = `${pct}%`;
+
+  const notices = db.notices.slice(0, 3);
+  $('homeNotices').innerHTML = notices.length
+    ? notices.map(n => `
+      <div class="urgent-item">
+        <div class="urgent-item-head">
+          <b>${esc(n.title)}</b>
+          <small>${esc(n.priority)} • ${esc(n.date)}</small>
+        </div>
+        <p>${esc(n.body)}</p>
+      </div>
+    `).join('')
+    : `<div class="urgent-item"><p>${lang() === 'bn' ? 'বর্তমানে কোনো নতুন নোটিশ নেই।' : 'No active announcements right now.'}</p></div>`;
+
+  $('recentToolsBar').innerHTML = db.recentPages.map(p => {
+    const btn = document.querySelector(`#nav button[data-page="${p}"]`);
+    if (!btn) return '';
+    return `<button class="sm" style="background:rgba(255,255,255,0.16);color:#fff" onclick="goPage('${p}')">${btn.textContent.trim()}</button>`;
+  }).join('');
+
+  const pendingPlans = db.plans.filter(x => !x.done).slice(0, 4);
+  const pendingHw = db.teachers.filter(x => x.status !== 'সম্পন্ন').slice(0, 3);
+  const combined = [
+    ...pendingHw.map(h => `<div class="item"><b>👨‍🏫 ${esc(h.subject)} — ${esc(h.teacher)}</b><small>${esc(h.task)} (${esc(h.due || '-')})</small></div>`),
+    ...pendingPlans.map(p => `<div class="item"><b>🎯 ${esc(p.title)}</b><small>${esc(p.type)} • ${esc(p.due || '-')}</small></div>`)
+  ];
+  $('homeTasks').innerHTML = combined.length ? combined.join('') : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function renderSubjectsAndRoutine() {
+  $('subjectEditor').innerHTML = db.subjects.map((s, i) => `
+    <div class="subjectrow">
+      <input data-sub="${i}" value="${esc(s)}">
+      <span class="muted">${lang() === 'bn' ? 'বিষয়' : 'Sub'} ${i + 1}</span>
+    </div>
+  `).join('');
+
+  $('routineList').innerHTML = db.routines.length
+    ? db.routines.map(r => `
+      <div class="item">
+        <b>${esc(r.day)} • ${esc(r.time)}</b>
+        <p>${esc(r.subject)}</p>
+        <div class="actions">
+          <button class="secondary sm" onclick="editRecord('routines', ${r.id}, 'subject')">${t('edit')}</button>
+          <button class="danger sm" onclick="deleteRecord('routines', ${r.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function renderStudyLogs() {
+  const today = todayStr();
+  const sList = db.studies.filter(x => x.date === today);
+  const oList = db.others.filter(x => x.date === today);
+
+  $('studyList').innerHTML = sList.length
+    ? sList.map(x => `
+      <div class="item">
+        <b>${esc(x.subject)} • <span class="pill green">${formatDuration(x.minutes)}</span></b>
+        <small>${esc(x.date)} ${x.start ? `(${esc(x.start)}–${esc(x.end)})` : ''} • ${esc(x.level)}</small>
+        <p>${esc(x.detail)}</p>
+        <div class="actions">
+          <button class="secondary sm" onclick="editRecord('studies', ${x.id}, 'detail')">${t('edit')}</button>
+          <button class="danger sm" onclick="deleteRecord('studies', ${x.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+
+  $('otherList').innerHTML = oList.length
+    ? oList.map(x => `
+      <div class="item">
+        <b>${esc(x.type)} • <span class="pill gold">${formatDuration(x.minutes)}</span></b>
+        <small>${esc(x.date)} (${esc(x.start)}–${esc(x.end)})</small>
+        <p>${esc(x.detail)}</p>
+        <div class="actions">
+          <button class="secondary sm" onclick="editRecord('others', ${x.id}, 'detail')">${t('edit')}</button>
+          <button class="danger sm" onclick="deleteRecord('others', ${x.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function renderTeachers() {
+  $('teacherList').innerHTML = db.teachers.length
+    ? db.teachers.map(x => {
+      const badgeClass = x.status === 'সম্পন্ন' ? 'green' : x.status === 'চলমান' ? 'gold' : 'red';
+      return `
+        <div class="item">
+          <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
+            <b>${esc(x.teacher)} • ${esc(x.subject)}</b>
+            <span class="pill ${badgeClass}">${esc(x.status)}</span>
+          </div>
+          <p>${esc(x.task)}</p>
+          <small>${lang() === 'bn' ? 'দেওয়া' : 'Assigned'}: ${esc(x.date)} | ${lang() === 'bn' ? 'জমা' : 'Due'}: ${esc(x.due || '-')}</small>
+          <div class="actions">
+            <button class="secondary sm" onclick="cycleHomeworkStatus(${x.id})">🔄 ${lang() === 'bn' ? 'অবস্থা পরিবর্তন' : 'Cycle Status'}</button>
+            <button class="secondary sm" onclick="editRecord('teachers', ${x.id}, 'task')">${t('edit')}</button>
+            <button class="danger sm" onclick="deleteRecord('teachers', ${x.id})">${t('del')}</button>
+          </div>
+        </div>
+      `;
+    }).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function cycleHomeworkStatus(id) {
+  const item = db.teachers.find(x => x.id === id);
+  if (!item) return;
+  item.status = item.status === 'বাকি' ? 'চলমান' : item.status === 'চলমান' ? 'সম্পন্ন' : 'বাকি';
+  saveDB();
+  renderAll();
+}
+
+function renderNotes() {
+  $('noteList').innerHTML = db.notes.length
+    ? db.notes.map(x => `
+      <div class="item">
+        <b>${esc(x.title)} <span class="pill">${esc(x.subject)}</span></b>
+        <p style="white-space:pre-wrap">${esc(x.body)}</p>
+        ${x.image ? `<img class="thumb" src="${x.image}" alt="Note attachment">` : ''}
+        <div class="actions">
+          <button class="secondary sm" onclick="editRecord('notes', ${x.id}, 'body')">${t('edit')}</button>
+          <button class="danger sm" onclick="deleteRecord('notes', ${x.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function renderLibrary() {
+  $('onlineLearningGrid').innerHTML = ONLINE_RESOURCES.map(r => `
+    <div class="resource-card">
+      <div class="resource-top">
+        <div class="resource-icon">${r.icon}</div>
+        <div>
+          <b style="font-size:14.5px">${esc(r.name)}</b>
+          <p class="muted" style="margin:4px 0 0;font-size:12.5px">${esc(lang() === 'bn' ? r.desc_bn : r.desc_en)}</p>
+        </div>
+      </div>
+      <button class="sm" onclick="openExternalSafe('${esc(r.url)}')">${t('open_site')}</button>
+    </div>
+  `).join('');
+
+  $('bookList').innerHTML = db.books.length
+    ? db.books.map(b => `
+      <div class="item">
+        <b>${esc(b.name)} <span class="pill">${esc(b.subject)}</span></b>
+        <small>${esc(b.author)}</small>
+        <p>${esc(b.desc)}</p>
+        <div class="actions">
+          <button class="sm" onclick="openExternalSafe('${esc(b.url)}')">${t('open_book')}</button>
+          <button class="secondary sm" onclick="editRecord('books', ${b.id}, 'name')">${t('edit')}</button>
+          <button class="danger sm" onclick="deleteRecord('books', ${b.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function renderLinks() {
+  $('linkList').innerHTML = db.links.length
+    ? db.links.map(l => `
+      <div class="item">
+        <b>${esc(l.name)} <span class="pill">${esc(l.type)}</span> <span class="pill">${esc(l.subject)}</span></b>
+        <p>${esc(l.desc)}</p>
+        <div class="actions">
+          <button class="sm" onclick="openExternalSafe('${esc(l.url)}')">${t('open_site')}</button>
+          <button class="secondary sm" onclick="editRecord('links', ${l.id}, 'name')">${t('edit')}</button>
+          <button class="danger sm" onclick="deleteRecord('links', ${l.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function renderNotices() {
+  $('noticeList').innerHTML = db.notices.length
+    ? db.notices.map(n => `
+      <div class="item">
+        <b>${esc(n.title)} <span class="pill red">${esc(n.priority)}</span></b>
+        <small>${esc(n.date)}</small>
+        <p>${esc(n.body)}</p>
+        <div class="actions">
+          <button class="secondary sm" onclick="editRecord('notices', ${n.id}, 'body')">${t('edit')}</button>
+          <button class="danger sm" onclick="deleteRecord('notices', ${n.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function renderPlans() {
+  const doneCount = db.plans.filter(x => x.done).length;
+  $('planProgressBadge').textContent = `${doneCount}/${db.plans.length}`;
+  $('planList').innerHTML = db.plans.length
+    ? db.plans.map(p => `
+      <div class="item" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <label style="display:flex;align-items:center;gap:9px;margin:0;cursor:pointer;text-decoration:${p.done ? 'line-through' : 'none'};opacity:${p.done ? 0.65 : 1}">
+          <input type="checkbox" style="width:18px;height:18px;margin:0" ${p.done ? 'checked' : ''} onchange="togglePlan(${p.id})">
+          <span>${esc(p.title)} <small class="muted">(${esc(p.type)} • ${esc(p.due || '-')})</small></span>
+        </label>
+        <button class="danger sm" onclick="deleteRecord('plans', ${p.id})">${t('del')}</button>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function togglePlan(id) {
+  const item = db.plans.find(x => x.id === id);
+  if (item) item.done = !item.done;
+  saveDB();
+  renderAll();
+}
+
+function renderFormulas() {
+  $('formulaList').innerHTML = db.formulas.length
+    ? db.formulas.map(f => `
+      <div class="item">
+        <b>${esc(f.title)}</b>
+        <p style="font-family:monospace;font-size:13.5px">${esc(f.body)}</p>
+        <div class="actions">
+          <button class="secondary sm" onclick="editRecord('formulas', ${f.id}, 'body')">${t('edit')}</button>
+          <button class="danger sm" onclick="deleteRecord('formulas', ${f.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+/* ==========================================================================
+   8. STATEMENT & REPORT GENERATOR (PDF / PRINT / CSV / SNAPSHOT / SHARE)
+   ========================================================================== */
+function buildReportHTML(from, to, type) {
+  const p = db.profile;
+  const studies = db.studies.filter(x => x.date >= from && x.date <= to);
+  const others = db.others.filter(x => x.date >= from && x.date <= to);
+  const teachers = db.teachers.filter(x => (x.date >= from && x.date <= to) || (x.due >= from && x.due <= to));
+
+  const totalStudyMins = studies.reduce((a, x) => a + x.minutes, 0);
+  const totalOtherMins = others.reduce((a, x) => a + x.minutes, 0);
+  const generatedAt = new Date().toLocaleString(lang() === 'bn' ? 'bn-BD' : 'en-US');
+
+  const bySub = {};
+  studies.forEach(s => { bySub[s.subject] = (bySub[s.subject] || 0) + s.minutes; });
+
+  return `
+    <div class="report-sheet" id="printableReport">
+      <div class="report-header">
+        <div style="display:flex;align-items:center;gap:12px">
+          <svg width="42" height="42" viewBox="0 0 48 48" fill="none">
+            <rect width="48" height="48" rx="12" fill="#0f2942"/>
+            <path d="M11 18.5C15.5 17.5 20.5 19 24 22C27.5 19 32.5 17.5 37 18.5V34.5C32.5 33.5 27.5 35 24 38C20.5 35 15.5 33.5 11 34.5V18.5Z" stroke="#d9a441" stroke-width="2.5"/>
+            <path d="M24 22V38" stroke="#d9a441" stroke-width="2.2"/>
+          </svg>
+          <div>
+            <b style="font-size:18px;display:block">ILM (ইলম) — Intelligent Learning &amp; Management</b>
+            <small class="muted">Official Academic &amp; Productivity Statement (${esc(from)} → ${esc(to)})</small>
+          </div>
+        </div>
+        <div style="text-align:right;font-size:12px">
+          <b>${lang() === 'bn' ? 'রিপোর্ট তৈরির সময়' : 'Generated'}:</b><br>${esc(generatedAt)}
+        </div>
+      </div>
+
+      <div class="report-user-box">
+        <div><b>${lang() === 'bn' ? 'শিক্ষার্থীর নাম' : 'Name'}:</b> ${esc(p.name || 'Salman Farshi')}</div>
+        <div><b>User ID:</b> ${esc(p.userId || 'ILM-2027-001')}</div>
+        <div><b>${lang() === 'bn' ? 'প্রতিষ্ঠান' : 'Institution'}:</b> ${esc(p.institution || '—')}</div>
+        <div><b>${lang() === 'bn' ? 'শ্রেণি / পদবি' : 'Class / Designation'}:</b> ${esc(p.classDesig || 'Dakhil 2027')}</div>
+      </div>
+
+      <div class="grid-4" style="margin-bottom:16px">
+        <div class="stat-card"><small>${lang() === 'bn' ? 'মোট পড়াশোনা' : 'Total Study'}</small><strong>${formatDuration(totalStudyMins)}</strong></div>
+        <div class="stat-card"><small>${lang() === 'bn' ? 'পড়ার সেশন' : 'Study Sessions'}</small><strong>${studies.length}</strong></div>
+        <div class="stat-card"><small>${lang() === 'bn' ? 'অন্য কাজে সময়' : 'Other Activities'}</small><strong>${formatDuration(totalOtherMins)}</strong></div>
+        <div class="stat-card"><small>${lang() === 'bn' ? 'শিক্ষকের পড়া' : 'Homework Items'}</small><strong>${teachers.length}</strong></div>
+      </div>
+
+      ${type !== 'teacher' ? `
+        <h4 style="margin:14px 0 8px">${lang() === 'bn' ? 'বিষয়ভিত্তিক পড়ার সারসংক্ষেপ' : 'Subject-Wise Study Summary'}</h4>
+        <div class="tablewrap" style="margin-bottom:16px">
+          <table>
+            <tr><th>${lang() === 'bn' ? 'বিষয়' : 'Subject'}</th><th>${lang() === 'bn' ? 'মোট সময়' : 'Total Duration'}</th></tr>
+            ${Object.keys(bySub).length
+              ? Object.entries(bySub).map(([k, v]) => `<tr><td>${esc(k)}</td><td><b>${formatDuration(v)}</b></td></tr>`).join('')
+              : `<tr><td colspan="2" class="muted">${t('empty_list')}</td></tr>`}
+          </table>
+        </div>
+
+        <h4 style="margin:14px 0 8px">${lang() === 'bn' ? 'বিস্তারিত পড়ার লগ' : 'Detailed Study Session Log'}</h4>
+        <div class="tablewrap" style="margin-bottom:16px">
+          <table>
+            <tr><th>${t('lbl_date')}</th><th>${t('lbl_subject')}</th><th>${lang() === 'bn' ? 'সময়কাল' : 'Duration'}</th><th>${t('lbl_what_studied')}</th></tr>
+            ${studies.length
+              ? studies.map(s => `<tr><td>${esc(s.date)}</td><td>${esc(s.subject)}</td><td>${formatDuration(s.minutes)}</td><td>${esc(s.detail)}</td></tr>`).join('')
+              : `<tr><td colspan="4" class="muted">${t('empty_list')}</td></tr>`}
+          </table>
+        </div>
+      ` : ''}
+
+      ${type !== 'study' ? `
+        <h4 style="margin:14px 0 8px">${lang() === 'bn' ? 'শিক্ষকের দেওয়া পড়ার তালিকা' : 'Teacher / Huzur Homework Log'}</h4>
+        <div class="tablewrap">
+          <table>
+            <tr><th>${t('lbl_teacher_name')}</th><th>${t('lbl_subject')}</th><th>${t('lbl_homework_detail')}</th><th>${t('lbl_status')}</th></tr>
+            ${teachers.length
+              ? teachers.map(hw => `<tr><td>${esc(hw.teacher)}</td><td>${esc(hw.subject)}</td><td>${esc(hw.task)}</td><td>${esc(hw.status)}</td></tr>`).join('')
+              : `<tr><td colspan="4" class="muted">${t('empty_list')}</td></tr>`}
+          </table>
+        </div>
+      ` : ''}
+
+      <div style="margin-top:20px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)">
+        <span>ILM (ইলম) — Intelligent Learning &amp; Management</span>
+        <span>${esc(p.website || 'salmanfarshi1630.github.io')}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderStatement() {
+  const from = $('fromDate').value || todayStr();
+  const to = $('toDate').value || todayStr();
+  const type = $('reportType').value || 'all';
+  $('statementResult').innerHTML = buildReportHTML(from, to, type);
+  renderSavedReports();
+}
+
+function renderSavedReports() {
+  $('savedReportsList').innerHTML = db.reports.length
+    ? db.reports.map(r => `
+      <div class="item" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div>
+          <b>📊 ${esc(r.title)}</b>
+          <small>${esc(r.createdAt)} • ${esc(r.summary)}</small>
+        </div>
+        <div class="actions" style="margin:0">
+          <button class="secondary sm" onclick="loadSnapshot(${r.id})">${lang() === 'bn' ? 'দেখুন' : 'View'}</button>
+          <button class="danger sm" onclick="deleteRecord('reports', ${r.id})">${t('del')}</button>
+        </div>
+      </div>
+    `).join('')
+    : `<div class="empty">${t('empty_list')}</div>`;
+}
+
+function loadSnapshot(id) {
+  const rep = db.reports.find(r => r.id === id);
+  if (!rep) return;
+  $('fromDate').value = rep.from;
+  $('toDate').value = rep.to;
+  $('reportType').value = rep.type;
+  renderStatement();
+  showToast(lang() === 'bn' ? 'সংরক্ষিত রিপোর্ট লোড হয়েছে।' : 'Saved report loaded.');
+}
+
+/* ==========================================================================
+   9. PROFILE & SETTINGS
+   ========================================================================== */
+function renderProfileAndSettings() {
+  const p = db.profile;
+  $('profileName').value = p.name || '';
+  $('profileUserId').value = p.userId || 'ILM-2027-001';
+  $('profileInstitution').value = p.institution || '';
+  $('profileClass').value = p.classDesig || '';
+  $('profileEmail').value = p.email || '';
+  $('profilePhone').value = p.phone || '';
+  $('profileWebsite').value = p.website || '';
+  $('profileAddress').value = p.address || '';
+
+  $('profileDisplayName').textContent = p.name || 'Salman Farshi';
+  $('profileDisplayMeta').textContent = `ID: ${p.userId || 'ILM-2027-001'} • ${p.classDesig || 'Dakhil 2027'}${p.institution ? ' • ' + p.institution : ''}`;
+  $('profileCreatedText').textContent = `${lang() === 'bn' ? 'অ্যাকাউন্ট তৈরির তারিখ:' : 'Account Created:'} ${p.createdAt || todayStr()}`;
+
+  const fields = [p.name, p.userId, p.institution, p.classDesig, p.email, p.phone, p.address, p.photo];
+  const filled = fields.filter(Boolean).length;
+  const pct = Math.round((filled / fields.length) * 100);
+  $('profileCompletionBadge').textContent = `${pct}% ${lang() === 'bn' ? 'সম্পূর্ণ' : 'Complete'}`;
+
+  const initial = (p.name || 'S').trim().charAt(0).toUpperCase();
+  if (p.photo) {
+    $('profileAvatarBox').innerHTML = `<img src="${p.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`;
+    $('topAvatar').outerHTML = `<img id="topAvatar" src="${p.photo}" alt="Avatar">`;
+  } else {
+    $('profileAvatarBox').textContent = initial;
+    $('topAvatar').outerHTML = `<span class="avatar-fallback" id="topAvatar">${esc(initial)}</span>`;
+  }
+
+  $('topUserName').textContent = (p.name || 'Salman').split(' ')[0];
+  $('welcome').textContent = lang() === 'bn'
+    ? `আসসালামু আলাইকুম, ${p.name || 'সালমান'}!`
+    : `Assalamu Alaikum, ${p.name || 'Salman'}!`;
+  $('footerSite').textContent = p.website || 'salmanfarshi1630.github.io';
+
+  $('language').value = db.settings.language;
+  $('themeSelect').value = db.settings.theme;
+  $('dailyGoal').value = db.settings.goal;
+  $('clockFormatSelect').value = db.settings.clock24 ? '24' : '12';
+}
+
+function applyTheme() {
+  document.documentElement.dataset.theme = db.settings.theme;
+  $('themeBtn').textContent = db.settings.theme === 'dark' ? '☀️' : '🌙';
+}
+
+/* ==========================================================================
+   10. GLOBAL CRUD & SAFE EXTERNAL LINKS
+   ========================================================================== */
+async function deleteRecord(key, id) {
+  const ok = await uiDialog({
+    title: lang() === 'bn' ? 'নিশ্চিতকরণ' : 'Confirm Deletion',
+    message: t('confirm_delete')
+  });
+  if (!ok) return;
+  db[key] = db[key].filter(x => x.id !== id);
+  saveDB();
+  renderAll();
+  showToast(t('deleted_toast'));
+}
+
+async function editRecord(key, id, field) {
+  const item = db[key].find(x => x.id === id);
+  if (!item) return;
+  const val = await uiDialog({
+    title: t('edit'),
+    message: lang() === 'bn' ? 'নতুন লেখা লিখুন:' : 'Enter updated text:',
+    input: true,
+    defaultValue: item[field] || ''
+  });
+  if (val === null || !val.trim()) return;
+  item[field] = val.trim();
+  saveDB();
+  renderAll();
+  showToast(t('saved_toast'));
+}
+
+function openExternalSafe(url) {
+  try {
+    const parsed = new URL(url);
+    if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error();
+    window.open(parsed.href, '_blank', 'noopener,noreferrer');
+  } catch (e) {
+    showToast(lang() === 'bn' ? 'সঠিক http/https লিংক দিন।' : 'Please enter a valid http/https URL.');
+  }
+}
+
+/* ==========================================================================
+   11. GLOBAL SEARCH
+   ========================================================================== */
+function handleGlobalSearch(q) {
+  const drop = $('searchDropdown');
+  const term = q.trim().toLowerCase();
+  if (!term) {
+    drop.classList.add('hidden');
+    return;
+  }
+  const hits = [];
+  db.notes.forEach(n => { if ((n.title + n.body).toLowerCase().includes(term)) hits.push({ page: 'notes', label: '📝 ' + n.title, sub: n.subject }); });
+  db.teachers.forEach(hw => { if ((hw.teacher + hw.task + hw.subject).toLowerCase().includes(term)) hits.push({ page: 'teacher', label: '👨‍🏫 ' + hw.subject, sub: hw.task }); });
+  db.books.forEach(b => { if ((b.name + b.author).toLowerCase().includes(term)) hits.push({ page: 'library', label: '📖 ' + b.name, sub: b.author }); });
+  db.links.forEach(l => { if ((l.name + l.desc).toLowerCase().includes(term)) hits.push({ page: 'links', label: '🔗 ' + l.name, sub: l.type }); });
+  db.formulas.forEach(f => { if ((f.title + f.body).toLowerCase().includes(term)) hits.push({ page: 'tools', label: '📐 ' + f.title, sub: f.body }); });
+  db.plans.forEach(p => { if (p.title.toLowerCase().includes(term)) hits.push({ page: 'plans', label: '🎯 ' + p.title, sub: p.type }); });
+
+  drop.innerHTML = hits.length
+    ? hits.slice(0, 8).map(h => `
+      <div class="search-hit" onclick="goPage('${h.page}');$('searchDropdown').classList.add('hidden');$('globalSearch').value=''">
+        <b style="font-size:13px;display:block">${esc(h.label)}</b>
+        <small class="muted">${esc(h.sub)}</small>
+      </div>
+    `).join('')
+    : `<div class="empty" style="padding:12px">${lang() === 'bn' ? 'কিছু পাওয়া যায়নি' : 'No matching items'}</div>`;
+  drop.classList.remove('hidden');
+}
+
+/* ==========================================================================
+   12. EVENT LISTENERS & INITIALIZATION
+   ========================================================================== */
+function renderAll() {
+  populateSubjectSelects();
+  applyTranslations();
+  applyTheme();
+  renderProfileAndSettings();
+  renderHome();
+  renderCalendar();
+  renderSubjectsAndRoutine();
+  renderStudyLogs();
+  renderTeachers();
+  renderNotes();
+  renderLibrary();
+  renderLinks();
+  renderNotices();
+  renderPlans();
+  renderFormulas();
+  renderCalcHistory();
+  if (activePage === 'statement') renderStatement();
+}
+
+function initEvents() {
+  document.querySelectorAll('#nav button, #bottomNav button').forEach(btn => {
+    btn.addEventListener('click', () => goPage(btn.dataset.page));
+  });
+  $('hamb').addEventListener('click', () => {
+    $('sidebar').classList.add('open');
+    $('sidebarBackdrop').classList.add('open');
+  });
+  $('sidebarBackdrop').addEventListener('click', closeSidebar);
+  $('topProfileBtn').addEventListener('click', () => goPage('settings'));
+
+  $('themeBtn').addEventListener('click', () => {
+    db.settings.theme = db.settings.theme === 'dark' ? 'light' : 'dark';
+    saveDB();
+    applyTheme();
+    $('themeSelect').value = db.settings.theme;
+  });
+
+  $('langBtn').addEventListener('click', () => {
+    db.settings.language = lang() === 'bn' ? 'en' : 'bn';
+    saveDB();
+    updateClock();
+    renderAll();
+    showToast(lang() === 'bn' ? 'ভাষা বাংলায় পরিবর্তন করা হয়েছে' : 'Language switched to English');
+  });
+
+  $('globalSearch').addEventListener('input', e => handleGlobalSearch(e.target.value));
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.top-search')) $('searchDropdown').classList.add('hidden');
+  });
+
+  $('clockFormatBtn').addEventListener('click', () => {
+    db.settings.clock24 = !db.settings.clock24;
+    saveDB();
+    updateClock();
+  });
+  $('calPrev').addEventListener('click', () => {
+    calMonth--;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+  });
+  $('calNext').addEventListener('click', () => {
+    calMonth++;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+  });
+  $('calToday').addEventListener('click', () => {
+    const now = new Date();
+    calYear = now.getFullYear();
+    calMonth = now.getMonth();
+    selectedCalDate = todayStr();
+    renderCalendar();
+  });
+  $('addCalEventBtn').addEventListener('click', async () => {
+    const title = await uiDialog({
+      title: lang() === 'bn' ? 'নতুন রিমাইন্ডার' : 'Add Calendar Reminder',
+      message: `${selectedCalDate}:`,
+      input: true
+    });
+    if (!title || !title.trim()) return;
+    db.events.unshift({ id: Date.now(), date: selectedCalDate, title: title.trim() });
+    saveDB();
+    renderCalendar();
+    showToast(t('saved_toast'));
+  });
+
+  $('quickAdd').addEventListener('click', () => {
+    const mins = Number($('quickMinutes').value);
+    if (!mins || mins < 1) return showToast(lang() === 'bn' ? 'সঠিক মিনিট লিখুন' : 'Enter valid minutes');
+    db.studies.unshift({
+      id: Date.now(),
+      date: todayStr(),
+      subject: $('quickSubject').value,
+      start: '', end: '',
+      minutes: mins,
+      detail: $('quickDetail').value.trim() || (lang() === 'bn' ? 'দ্রুত সেশন' : 'Quick study session'),
+      level: 'ভালোভাবে বুঝেছি'
+    });
+    $('quickDetail').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('saveSubjects').addEventListener('click', () => {
+    db.subjects = [...document.querySelectorAll('[data-sub]')].map(el => el.value.trim() || 'অন্যান্য');
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+  $('addRoutine').addEventListener('click', () => {
+    if (!$('routineTime').value.trim() || !$('routineSubject').value.trim()) return showToast(lang() === 'bn' ? 'সময় ও বিষয় লিখুন' : 'Enter time and subject');
+    db.routines.unshift({ id: Date.now(), day: $('routineDay').value, time: $('routineTime').value.trim(), subject: $('routineSubject').value.trim() });
+    $('routineSubject').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('addStudy').addEventListener('click', () => {
+    const mins = minsBetween($('studyStart').value, $('studyEnd').value);
+    if (!mins) return showToast(lang() === 'bn' ? 'সঠিক শুরু ও শেষের সময় দিন' : 'Enter valid start & end times');
+    db.studies.unshift({
+      id: Date.now(),
+      date: $('studyDate').value || todayStr(),
+      subject: $('studySubject').value,
+      start: $('studyStart').value,
+      end: $('studyEnd').value,
+      minutes: mins,
+      detail: $('studyDetail').value.trim(),
+      level: $('studyLevel').value
+    });
+    $('studyDetail').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('addOther').addEventListener('click', () => {
+    const mins = minsBetween($('otherStart').value, $('otherEnd').value);
+    if (!mins) return showToast(lang() === 'bn' ? 'সঠিক শুরু ও শেষের সময় দিন' : 'Enter valid start & end times');
+    db.others.unshift({
+      id: Date.now(),
+      date: $('otherDate').value || todayStr(),
+      type: $('otherType').value,
+      start: $('otherStart').value,
+      end: $('otherEnd').value,
+      minutes: mins,
+      detail: $('otherDetail').value.trim()
+    });
+    $('otherDetail').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('addTeacher').addEventListener('click', () => {
+    if (!$('teacherName').value.trim() || !$('teacherTask').value.trim()) return showToast(lang() === 'bn' ? 'শিক্ষকের নাম ও পড়া লিখুন' : 'Enter teacher name and task');
+    db.teachers.unshift({
+      id: Date.now(),
+      teacher: $('teacherName').value.trim(),
+      subject: $('teacherSubject').value,
+      date: $('teacherDate').value || todayStr(),
+      task: $('teacherTask').value.trim(),
+      due: $('teacherDue').value,
+      status: $('teacherStatus').value
+    });
+    $('teacherTask').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  let pendingNoteImg = '';
+  $('noteImage').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 1500000) return showToast(lang() === 'bn' ? 'ছবি ১.৫ MB-এর কম রাখুন' : 'Image must be under 1.5 MB');
+    const reader = new FileReader();
+    reader.onload = () => {
+      pendingNoteImg = reader.result;
+      $('imagePreview').innerHTML = `<img class="thumb" src="${pendingNoteImg}" alt="Preview">`;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  $('addNote').addEventListener('click', () => {
+    if (!$('noteTitle').value.trim()) return showToast(lang() === 'bn' ? 'নোটের শিরোনাম লিখুন' : 'Enter note title');
+    db.notes.unshift({
+      id: Date.now(),
+      title: $('noteTitle').value.trim(),
+      subject: $('noteSubject').value,
+      body: $('noteBody').value.trim(),
+      image: pendingNoteImg
+    });
+    $('noteTitle').value = '';
+    $('noteBody').value = '';
+    pendingNoteImg = '';
+    $('imagePreview').innerHTML = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('addBook').addEventListener('click', () => {
+    if (!$('bookName').value.trim() || !$('bookUrl').value.trim()) return showToast(lang() === 'bn' ? 'বইয়ের নাম ও লিংক লিখুন' : 'Enter book title and URL');
+    db.books.unshift({
+      id: Date.now(),
+      name: $('bookName').value.trim(),
+      author: $('bookAuthor').value.trim(),
+      subject: $('bookSubject').value,
+      url: $('bookUrl').value.trim(),
+      desc: $('bookDesc').value.trim()
+    });
+    $('bookName').value = ''; $('bookAuthor').value = ''; $('bookUrl').value = ''; $('bookDesc').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('addLink').addEventListener('click', () => {
+    if (!$('linkName').value.trim() || !$('linkUrl').value.trim()) return showToast(lang() === 'bn' ? 'নাম ও লিংক লিখুন' : 'Enter resource name and URL');
+    db.links.unshift({
+      id: Date.now(),
+      name: $('linkName').value.trim(),
+      type: $('linkType').value,
+      subject: $('linkSubject').value,
+      url: $('linkUrl').value.trim(),
+      desc: $('linkDesc').value.trim()
+    });
+    $('linkName').value = ''; $('linkUrl').value = ''; $('linkDesc').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('addNotice').addEventListener('click', () => {
+    if (!$('noticeTitle').value.trim() || !$('noticeBody').value.trim()) return showToast(lang() === 'bn' ? 'নোটিশের শিরোনাম ও বিবরণ লিখুন' : 'Enter notice title and details');
+    db.notices.unshift({
+      id: Date.now(),
+      title: $('noticeTitle').value.trim(),
+      body: $('noticeBody').value.trim(),
+      date: $('noticeDate').value || todayStr(),
+      priority: $('noticePriority').value
+    });
+    $('noticeTitle').value = ''; $('noticeBody').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('addPlan').addEventListener('click', () => {
+    if (!$('planTitle').value.trim()) return showToast(lang() === 'bn' ? 'লক্ষ্য বা কাজ লিখুন' : 'Enter task or goal');
+    db.plans.unshift({
+      id: Date.now(),
+      title: $('planTitle').value.trim(),
+      due: $('planDue').value,
+      type: $('planType').value,
+      done: false
+    });
+    $('planTitle').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('calcModeBtn').addEventListener('click', () => {
+    calcDegMode = !calcDegMode;
+    const mode = calcDegMode ? 'DEG' : 'RAD';
+    $('calcModeBtn').textContent = mode;
+    $('calcAngleLabel').textContent = `ANGLE: ${mode}`;
+  });
+
+  $('calcPad').addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const act = btn.dataset.act;
+    const val = btn.dataset.val;
+
+    if (act === 'ac') {
+      calcExpression = '';
+      updateCalcScreen('0');
+    } else if (act === 'del') {
+      calcExpression = calcExpression.slice(0, -1);
+      updateCalcScreen();
+    } else if (act === 'ans') {
+      calcExpression += 'ANS';
+      updateCalcScreen();
+    } else if (act === 'eq') {
+      try {
+        const res = evaluateScientific(calcExpression);
+        calcLastAns = String(res);
+        db.calcHistory.unshift({ expr: calcExpression, res: calcLastAns });
+        db.calcHistory = db.calcHistory.slice(0, 12);
+        saveDB();
+        updateCalcScreen(calcLastAns);
+        renderCalcHistory();
+      } catch (err) {
+        updateCalcScreen('Syntax Error');
+      }
+    } else if (val) {
+      calcExpression += val;
+      updateCalcScreen();
+    }
+  });
+
+  $('clearCalcHist').addEventListener('click', () => {
+    db.calcHistory = [];
+    saveDB();
+    renderCalcHistory();
+  });
+
+  $('addFormula').addEventListener('click', () => {
+    if (!$('formulaTitle').value.trim() || !$('formulaBody').value.trim()) return showToast(lang() === 'bn' ? 'সূত্রের নাম ও বিবরণ লিখুন' : 'Enter formula name and expression');
+    db.formulas.unshift({ id: Date.now(), title: $('formulaTitle').value.trim(), body: $('formulaBody').value.trim() });
+    $('formulaTitle').value = ''; $('formulaBody').value = '';
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('makeStatement').addEventListener('click', renderStatement);
+  $('printStatement').addEventListener('click', () => {
+    renderStatement();
+    window.print();
+  });
+
+  $('exportCsvBtn').addEventListener('click', () => {
+    const from = $('fromDate').value || todayStr();
+    const to = $('toDate').value || todayStr();
+    const rows = [
+      ['Type', 'Date', 'Subject/Category', 'Minutes', 'Details'],
+      ...db.studies.filter(x => x.date >= from && x.date <= to).map(s => ['Study', s.date, s.subject, s.minutes, `"${(s.detail || '').replace(/"/g, '""')}"`]),
+      ...db.others.filter(x => x.date >= from && x.date <= to).map(o => ['Other', o.date, o.type, o.minutes, `"${(o.detail || '').replace(/"/g, '""')}"`])
+    ];
+    const csv = '\uFEFF' + rows.map(r => r.join(',')).join('\n');
+    downloadBlob(csv, `ILM-Report-${from}-to-${to}.csv`, 'text/csv;charset=utf-8;');
+    showToast(lang() === 'bn' ? 'CSV ডাউনলোড শুরু হয়েছে!' : 'CSV download started!');
+  });
+
+  $('saveSnapshotBtn').addEventListener('click', () => {
+    const from = $('fromDate').value || todayStr();
+    const to = $('toDate').value || todayStr();
+    const type = $('reportType').value;
+    const totalMins = db.studies.filter(x => x.date >= from && x.date <= to).reduce((a, x) => a + x.minutes, 0);
+    db.reports.unshift({
+      id: Date.now(),
+      title: `${from} → ${to} (${type.toUpperCase()})`,
+      from, to, type,
+      createdAt: new Date().toLocaleString(),
+      summary: formatDuration(totalMins)
+    });
+    saveDB();
+    renderSavedReports();
+    showToast(t('saved_toast'));
+  });
+
+  $('shareReportBtn').addEventListener('click', async () => {
+    const from = $('fromDate').value || todayStr();
+    const to = $('toDate').value || todayStr();
+    const totalMins = db.studies.filter(x => x.date >= from && x.date <= to).reduce((a, x) => a + x.minutes, 0);
+    const text = `ILM Study Report (${db.profile.name})\nPeriod: ${from} to ${to}\nTotal Study: ${formatDuration(totalMins)}`;
+    if (navigator.share) {
+      try { await navigator.share({ title: 'ILM Study Report', text }); return; } catch (e) {}
+    }
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+    showToast(lang() === 'bn' ? 'রিপোর্ট সারসংক্ষেপ কপি হয়েছে!' : 'Report summary copied to clipboard!');
+  });
+
+  $('profilePhoto').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 1500000) return showToast(lang() === 'bn' ? 'ছবি ১.৫ MB-এর কম রাখুন' : 'Photo must be under 1.5 MB');
+    const reader = new FileReader();
+    reader.onload = () => {
+      db.profile.photo = reader.result;
+      saveDB();
+      renderProfileAndSettings();
+      showToast(t('saved_toast'));
+    };
+    reader.readAsDataURL(file);
+  });
+
+  $('saveProfile').addEventListener('click', () => {
+    db.profile = {
+      ...db.profile,
+      name: $('profileName').value.trim() || 'Salman Farshi',
+      userId: $('profileUserId').value.trim() || 'ILM-2027-001',
+      institution: $('profileInstitution').value.trim(),
+      classDesig: $('profileClass').value.trim(),
+      email: $('profileEmail').value.trim(),
+      phone: $('profilePhone').value.trim(),
+      website: $('profileWebsite').value.trim(),
+      address: $('profileAddress').value.trim()
+    };
+    saveDB();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('saveSettings').addEventListener('click', () => {
+    db.settings.language = $('language').value;
+    db.settings.theme = $('themeSelect').value;
+    db.settings.goal = Math.max(1, Math.min(18, Number($('dailyGoal').value) || 6));
+    db.settings.clock24 = $('clockFormatSelect').value === '24';
+    saveDB();
+    updateClock();
+    renderAll();
+    showToast(t('saved_toast'));
+  });
+
+  $('exportData').addEventListener('click', () => {
+    downloadBlob(JSON.stringify(db, null, 2), `ILM-Backup-${todayStr()}.json`, 'application/json');
+  });
+
+  $('importData').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        if (!parsed.subjects || !parsed.studies) throw new Error();
+        db = { ...structuredClone(DEFAULT_STATE), ...parsed };
+        saveDB();
+        renderAll();
+        showToast(lang() === 'bn' ? 'ব্যাকআপ সফলভাবে রিস্টোর হয়েছে!' : 'Backup restored successfully!');
+      } catch (err) {
+        showToast(lang() === 'bn' ? 'ভুল ব্যাকআপ ফাইল!' : 'Invalid backup JSON file!');
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  $('resetData').addEventListener('click', async () => {
+    const ok = await uiDialog({
+      title: lang() === 'bn' ? 'সব ডেটা রিসেট' : 'Reset All Data',
+      message: lang() === 'bn' ? 'সব সংরক্ষিত তথ্য স্থায়ীভাবে মুছে যাবে। আপনি কি নিশ্চিত?' : 'All saved records will be permanently erased. Continue?'
+    });
+    if (!ok) return;
+    localStorage.removeItem('salmanStudyHub');
+    db = structuredClone(DEFAULT_STATE);
+    saveDB();
+    renderAll();
+    showToast(lang() === 'bn' ? 'সব ডেটা রিসেট হয়েছে।' : 'All data has been reset.');
+  });
+}
+
+function downloadBlob(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  ['studyDate', 'otherDate', 'teacherDate', 'noticeDate', 'fromDate', 'toDate'].forEach(id => {
+    if ($(id)) $(id).value = todayStr();
+  });
+  initEvents();
+  renderAll();
+  updateClock();
+  setInterval(updateClock, 1000);
+});
+</script>
+</body>
+</html>
